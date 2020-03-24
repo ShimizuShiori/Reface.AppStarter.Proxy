@@ -2,6 +2,8 @@
 
 namespace Reface.AppStarter.Proxy.Tests
 {
+    [ComponentScanAppModule]
+    [ProxyAppModule]
     public class TestAppModule : AppModule
     {
     }

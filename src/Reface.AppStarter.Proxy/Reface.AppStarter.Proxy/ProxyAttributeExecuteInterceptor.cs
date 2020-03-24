@@ -20,10 +20,10 @@ namespace Reface.AppStarter.Proxy
             MethodInfo methodInfo;
             ReturnedValueSources source = ReturnedValueSources.OriginalMethod;
 
-            methodInfo = invocation.MethodInvocationTarget.GetBaseDefinition();
+            methodInfo = invocation.MethodInvocationTarget?.GetBaseDefinition();
             if (methodInfo == null)
             {
-                methodInfo = invocation.Method;
+                methodInfo = invocation.Method.GetBaseDefinition();
             }
             var proxies = this.proxyOnTypeInfo.ProxiesOnClass;
             proxies = proxies.Concat(this.proxyOnTypeInfo.ProxiesOnMethod[methodInfo]);

@@ -34,22 +34,21 @@ namespace Reface.AppStarter.AppContainers
                 if (!result) result = type.GetMethods().Where(m => m.GetCustomAttributes<ProxyAttribute>().Any()).Any();
                 return result;
             });
-            if (hasProxy)
-            {
-                ClassProxyOnTypeInfo proxyOnTypeInfo = new ClassProxyOnTypeInfo(e.CreatedObject.GetType());
-                foreach (var attr in proxyOnTypeInfo.ProxiesOnClass)
-                    e.ComponentManager.InjectPropeties(attr);
-                foreach (var attr in proxyOnTypeInfo.ProxiesOnMethod.SelectMany(x => x.Value))
-                    e.ComponentManager.InjectPropeties(attr);
+            if (!hasProxy) return;
 
-                ProxyAttributeExecuteInterceptor proxyAttributeExecuteInterceptor = new ProxyAttributeExecuteInterceptor(proxyOnTypeInfo);
-                var newInstance = proxyGenerator.CreateInterfaceProxyWithTarget(
-                    e.RequiredType,
-                    e.CreatedObject,
-                    proxyAttributeExecuteInterceptor
-                );
-                e.Replace(newInstance);
-            }
+            ClassProxyOnTypeInfo proxyOnTypeInfo = new ClassProxyOnTypeInfo(e.CreatedObject.GetType());
+            foreach (var attr in proxyOnTypeInfo.ProxiesOnClass)
+                e.ComponentManager.InjectPropeties(attr);
+            foreach (var attr in proxyOnTypeInfo.ProxiesOnMethod.SelectMany(x => x.Value))
+                e.ComponentManager.InjectPropeties(attr);
+
+            ProxyAttributeExecuteInterceptor proxyAttributeExecuteInterceptor = new ProxyAttributeExecuteInterceptor(proxyOnTypeInfo);
+            var newInstance = proxyGenerator.CreateInterfaceProxyWithTarget(
+                e.RequiredType,
+                e.CreatedObject,
+                proxyAttributeExecuteInterceptor
+            );
+            e.Replace(newInstance);
 
         }
 

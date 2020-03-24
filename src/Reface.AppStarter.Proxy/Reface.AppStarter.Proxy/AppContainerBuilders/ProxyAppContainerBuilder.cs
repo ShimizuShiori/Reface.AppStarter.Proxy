@@ -2,6 +2,7 @@
 using Reface.AppStarter.AppContainers;
 using Reface.AppStarter.Attributes;
 using Reface.AppStarter.Proxy;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,6 +25,7 @@ namespace Reface.AppStarter.AppContainerBuilders
             AutofacContainerBuilder autofacContainerBuilder = setup.GetAppContainerBuilder<AutofacContainerBuilder>();
             foreach (var info in attributeAndTypeInfos)
             {
+                if (!info.Type.IsInterface) continue;
                 autofacContainerBuilder.RegisterByCreator(c =>
                 {
                     ClassProxyOnTypeInfo proxyOnTypeInfo = new ClassProxyOnTypeInfo(info.Type);
@@ -39,7 +41,7 @@ namespace Reface.AppStarter.AppContainerBuilders
                     );
                 }, info.Type);
             }
-            return new EmptyAppContainer();
+            return new ProxyAppContainer();
         }
     }
 }
