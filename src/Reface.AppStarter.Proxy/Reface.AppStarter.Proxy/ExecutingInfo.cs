@@ -77,6 +77,9 @@ namespace Reface.AppStarter.Proxy
         /// <param name="value"></param>
         public void Return(object value)
         {
+            if (this.SkipExecuteOriginalMethod)
+                throw new ApplicationException("该方法已从某个代理中产生了返回的值，无法产生新的返回值");
+            
             this.SkipExecuteOriginalMethod = true;
             this.ReturnedValue = value;
         }

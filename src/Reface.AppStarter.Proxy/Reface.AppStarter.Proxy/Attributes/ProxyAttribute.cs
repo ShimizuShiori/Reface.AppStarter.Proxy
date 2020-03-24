@@ -7,7 +7,7 @@ namespace Reface.AppStarter.Attributes
     /// 代理特征，被标有此特征的类会产生代理类
     /// </summary>
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class | AttributeTargets.Interface)]
-    public abstract class ProxyAttribute : Attribute
+    public abstract class ProxyAttribute : ScannableAttribute
     {
         /// <summary>
         /// 当方法执行时（执行前拦截）

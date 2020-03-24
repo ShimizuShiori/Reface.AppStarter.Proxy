@@ -79,15 +79,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppContainerBuilders\ProxyAppContainerBuilder.cs" />
+    <Compile Include="AppContainers\IProxyAppContainer.cs" />
+    <Compile Include="AppContainers\ProxyAppContainer.cs" />
+    <Compile Include="AppModules\ProxyAppModule.cs" />
     <Compile Include="Attributes\ProxyAttribute.cs" />
     <Compile Include="ExecutedInfo.cs" />
     <Compile Include="ExecuteErrorInfo.cs" />
     <Compile Include="ExecutingInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProxyAttributeExecuteInterceptor.cs" />
+    <Compile Include="ClassProxyOnTypeInfo.cs" />
     <Compile Include="ReturnedValueSources.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
