@@ -12,9 +12,19 @@ namespace Reface.AppStarter.Proxy
     /// </summary>
     public class InterfaceInvocationInfo
     {
+        /// <summary>
+        /// 调用的方法
+        /// </summary>
         public MethodInfo Method { get; private set; }
+
+        /// <summary>
+        /// 调用的参数
+        /// </summary>
         public object[] Arguments { get; private set; }
 
+        /// <summary>
+        /// 通过动态实现返回的值
+        /// </summary>
         public object ReturnValue { get; set; }
 
         public InterfaceInvocationInfo(MethodInfo method, object[] arguments)

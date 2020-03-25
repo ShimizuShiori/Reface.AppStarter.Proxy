@@ -33,5 +33,12 @@ namespace Reface.AppStarter.Proxy.Tests
             string userName = userDao.GetUserName(Guid.Empty);
             Console.WriteLine("UserName = {0}", userName);
         }
+
+        [TestMethod]
+        public void Test()
+        {
+            IUserDao userDao = this.ComponentContainer.CreateComponent<IUserDao>();
+            userDao.Test();
+        }
     }
 }
