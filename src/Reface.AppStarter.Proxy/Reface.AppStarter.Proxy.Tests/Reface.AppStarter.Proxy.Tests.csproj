@@ -70,6 +70,7 @@
   <ItemGroup>
     <Compile Include="Attributes\AutoDaoAttribute.cs" />
     <Compile Include="Attributes\GenerateIdAttribute.cs" />
+    <Compile Include="Attributes\LoggerAttribute.cs" />
     <Compile Include="Dao\IUserDao.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="OthersTest.cs" />

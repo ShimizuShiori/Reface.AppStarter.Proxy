@@ -1,23 +1,22 @@
 ﻿using Reface.AppStarter.Attributes;
+using Reface.AppStarter.Proxy.Tests.Models;
 using System;
+using System.Diagnostics;
 
 namespace Reface.AppStarter.Proxy.Tests.Attributes
 {
     [AttributeUsage(AttributeTargets.Interface)]
-    public class AutoDaoAttribute : ProxyAttribute
+    public class AutoDaoAttribute : ImplementorAttribute
     {
-        public override void OnExecuted(ExecutedInfo executedInfo)
+        public override void Intercept(InterfaceInvocationInfo info)
         {
-        }
+            Debug.WriteLine("AutoDaoAttribute.Intercept");
+            if (info.Method.ReturnType == typeof(bool))
+                info.ReturnValue = true;
 
-        public override void OnExecuteError(ExecuteErrorInfo executeErrorInfo)
-        {
-        }
-
-        public override void OnExecuting(ExecutingInfo executingInfo)
-        {
-            if (executingInfo.Method.ReturnType == typeof(bool))
-                executingInfo.Return(true);
+            if (info.Method.ReturnType == typeof(User))
+                info.ReturnValue = new User();
         }
     }
+
 }

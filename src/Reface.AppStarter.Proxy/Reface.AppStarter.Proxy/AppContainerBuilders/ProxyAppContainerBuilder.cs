@@ -15,7 +15,7 @@ namespace Reface.AppStarter.AppContainerBuilders
         public void RegisterProxyOfInterface(AttributeAndTypeInfo info)
         {
             if (!info.Type.IsInterface) return;
-            if (info.Attribute is ProxyAttribute)
+            if (info.Attribute is ImplementorAttribute)
                 this.attributeAndTypeInfos.Add(info);
         }
 
@@ -28,17 +28,20 @@ namespace Reface.AppStarter.AppContainerBuilders
                 if (!info.Type.IsInterface) continue;
                 autofacContainerBuilder.RegisterByCreator(c =>
                 {
-                    ClassProxyOnTypeInfo proxyOnTypeInfo = new ClassProxyOnTypeInfo(info.Type);
-                    foreach (var attr in proxyOnTypeInfo.ProxiesOnClass)
-                        c.InjectPropeties(attr);
-                    foreach (var attr in proxyOnTypeInfo.ProxiesOnMethod.SelectMany(x => x.Value))
-                        c.InjectPropeties(attr);
+                    c.InjectPropeties(info.Attribute);
 
-                    ProxyAttributeExecuteInterceptor proxyAttributeExecuteInterceptor = new ProxyAttributeExecuteInterceptor(proxyOnTypeInfo);
-                    return proxyGenerator.CreateInterfaceProxyWithoutTarget(
+                    //ClassProxyOnTypeInfo proxyOnTypeInfo = new ClassProxyOnTypeInfo(info.Type);
+                    //foreach (var attr in proxyOnTypeInfo.ProxiesOnClass)
+                    //    c.InjectPropeties(attr);
+                    //foreach (var attr in proxyOnTypeInfo.ProxiesOnMethod.SelectMany(x => x.Value))
+                    //    c.InjectPropeties(attr);
+
+                    ImplementorAttributeExecuteInterceptor interceptor = new ImplementorAttributeExecuteInterceptor(info.Type, (ImplementorAttribute)info.Attribute);
+                    var rlt = proxyGenerator.CreateInterfaceProxyWithoutTarget(
                         info.Type,
-                        proxyAttributeExecuteInterceptor
+                        interceptor
                     );
+                    return rlt;
                 }, info.Type);
             }
             return new ProxyAppContainer();

@@ -6,6 +6,7 @@ using System;
 namespace Reface.AppStarter.Proxy.Tests.Services
 {
     [Component]
+    [Logger]
     public class DefaultUserService : IUserService
     {
         [GenerateId]
