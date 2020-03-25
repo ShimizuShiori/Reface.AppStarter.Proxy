@@ -40,29 +40,29 @@ namespace Reface.AppStarter.AppContainers
             componentContainer.ComponentCreating += ComponentContainer_ComponentCreating;
         }
 
+        private bool IsDynamicImplemented(object value)
+        {
+            if (!(value is IProxyTargetAccessor)) return false;
+            IProxyTargetAccessor proxyTargetAccessor = value as IProxyTargetAccessor;
+            IInterceptor[] interceptors = proxyTargetAccessor.GetInterceptors();
+            if (interceptors == null) return false;
+            IEnumerable<ImplementorAttributeExecuteInterceptor> myInterceptor
+                 = interceptors.OfType<ImplementorAttributeExecuteInterceptor>();
+            if (!myInterceptor.Any()) return false;
+            return true;
+        }
+
         private void ComponentContainer_ComponentCreating(object sender, AutofacExt.ComponentCreatingEventArgs e)
         {
-            Debug.WriteLine($"ComponentContainer_ComponentCreating {e.CreatedObject.GetType().FullName} ");
-            TypeHasProxyInfo info = cacheForTypeHasProxy.GetOrAdd(e.CreatedObject.GetType(), type =>
-            {
-                if (e.CreatedObject is IProxyTargetAccessor)
-                {
-                    IProxyTargetAccessor accessor = (IProxyTargetAccessor)e.CreatedObject;
-                    type = ((ImplementorAttributeExecuteInterceptor)accessor.GetInterceptors()[0]).InterfaceType;
-                }
-                bool hasProxy = type.GetCustomAttributes<ProxyAttribute>().Any();
-                if (!hasProxy) hasProxy = type.GetMethods().Where(m => m.GetCustomAttributes<ProxyAttribute>().Any()).Any();
-                return new TypeHasProxyInfo(type, hasProxy);
-            });
+            TypeHasProxyInfo info = GetTypeHadProxyInfo(e);
             if (!info.HasProxy) return;
 
+            // 对特征的属性进行注入
             ClassProxyOnTypeInfo proxyOnTypeInfo = new ClassProxyOnTypeInfo(info.Type);
             foreach (var attr in proxyOnTypeInfo.ProxiesOnClass)
                 e.ComponentManager.InjectPropeties(attr);
             foreach (var attr in proxyOnTypeInfo.ProxiesOnMethod.SelectMany(x => x.Value))
                 e.ComponentManager.InjectPropeties(attr);
-
-            Debug.WriteLine($"开始创建 {e.CreatedObject.GetType().FullName} 的代理类");
 
             ProxyAttributeExecuteInterceptor proxyAttributeExecuteInterceptor = new ProxyAttributeExecuteInterceptor(proxyOnTypeInfo);
             var newInstance = proxyGenerator.CreateInterfaceProxyWithTarget(
@@ -72,6 +72,33 @@ namespace Reface.AppStarter.AppContainers
             );
             e.Replace(newInstance);
 
+        }
+
+        /// <summary>
+        /// 获取一个类型是否有切面特征
+        /// </summary>
+        /// <param name="e"></param>
+        /// <returns></returns>
+        private TypeHasProxyInfo GetTypeHadProxyInfo(AutofacExt.ComponentCreatingEventArgs e)
+        {
+            TypeHasProxyInfo info = cacheForTypeHasProxy.GetOrAdd(e.CreatedObject.GetType(), type =>
+            {
+                /**
+                 * 动态实现的接口，是无法将 AOP 特征挂载在 class 上的。
+                 * 相反，手动实现的接口，是不会将 AOP 特征挂载在 interface 上的。
+                 * 因此，在此处判断一个对象是否需要进行 AOP 操作时，就要分清上面两种情况，才能做出正确的反射。
+                 * 
+                 * 当创建的对象是动态实现的时候，将对 Interface 判断是否存在 AOP 特征；
+                 * 当创建的对象不是动态实现的时候，将对该对象本身判断是否存在 AOP 特征。
+                 */
+                if (IsDynamicImplemented(e.CreatedObject))
+                    type = e.RequiredType;
+
+                bool hasProxy = type.GetCustomAttributes<ProxyAttribute>().Any();
+                if (!hasProxy) hasProxy = type.GetMethods().Where(m => m.GetCustomAttributes<ProxyAttribute>().Any()).Any();
+                return new TypeHasProxyInfo(type, hasProxy);
+            });
+            return info;
         }
 
         public void OnAppStarted(App app)
