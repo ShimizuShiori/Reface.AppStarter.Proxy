@@ -2,6 +2,7 @@
 using Reface.AppStarter.Attributes;
 using System;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 
 namespace Reface.AppStarter.Proxy
@@ -27,7 +28,6 @@ namespace Reface.AppStarter.Proxy
             }
             var proxies = this.proxyOnTypeInfo.ProxiesOnClass;
             proxies = proxies.Concat(this.proxyOnTypeInfo.ProxiesOnMethod[methodInfo.ToString()]);
-
 
             ExecutingInfo executingInfo = new ExecutingInfo(methodInfo, invocation.Arguments);
 
