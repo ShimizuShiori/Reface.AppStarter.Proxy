@@ -27,5 +27,5 @@ https://www.nuget.org/packages/Reface.AppStarter.Proxy
 即可开启该模块提供的功能。
 
 下面是各种功能的详细说明
-* [向 class 添加 AOP](.\docs\ProxyAttribute.md)
-* [向 interface 添加动态实现](/\docs\ImplementorAttribute.md)
+* [向 class 添加 AOP](./docs/ProxyAttribute.md)
+* [向 interface 添加动态实现](./docs/ImplementorAttribute.md)
