@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>Reface.AppStarter.Proxy</id>
+    <version>1.0.0</version>
+    <title>Reface.AppStarter.Proxy</title>
+    <authors>ShimizuShiori</authors>
+    <owners>ShimizuShiori</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/ShimizuShiori/Reface.AppStarter.Proxy</projectUrl>
+    <description>基于 Reface.AppStarter 的模块，允许用户简单的创建类或接口的代理类，实现 AOP 、动态实现等功能</description>
+    <copyright>Copyright © 2002 ShimizuShiori. All rights reserved.</copyright>
+    <tags>AOP Dynamic</tags>
+  </metadata>
+</package>
