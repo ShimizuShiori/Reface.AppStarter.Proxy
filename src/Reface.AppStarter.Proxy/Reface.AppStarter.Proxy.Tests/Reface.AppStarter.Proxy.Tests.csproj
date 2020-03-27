@@ -95,11 +95,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll" />
-    <Content Include="Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll" />
-    <Content Include="Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Reface.AppStarter.Proxy\Reface.AppStarter.Proxy.csproj">
       <Project>{5c0437d2-8ddc-4003-9d0a-b101909b2440}</Project>
       <Name>Reface.AppStarter.Proxy</Name>
