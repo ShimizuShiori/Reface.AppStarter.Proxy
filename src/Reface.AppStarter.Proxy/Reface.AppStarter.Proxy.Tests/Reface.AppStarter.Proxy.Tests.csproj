@@ -50,7 +50,7 @@
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Reface.AppStarter, Version=0.10.11.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Reface.AppStarter.1.2.1\lib\net461\Reface.AppStarter.dll</HintPath>
+      <HintPath>..\packages\Reface.AppStarter.1.2.2\lib\net461\Reface.AppStarter.dll</HintPath>
     </Reference>
     <Reference Include="Reface.AppStarter.UnitTests, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Reface.AppStarter.UnitTests.1.0.2\lib\net461\Reface.AppStarter.UnitTests.dll</HintPath>
@@ -99,11 +99,6 @@
       <Project>{5c0437d2-8ddc-4003-9d0a-b101909b2440}</Project>
       <Name>Reface.AppStarter.Proxy</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll" />
-    <Content Include="Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll" />
-    <Content Include="Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

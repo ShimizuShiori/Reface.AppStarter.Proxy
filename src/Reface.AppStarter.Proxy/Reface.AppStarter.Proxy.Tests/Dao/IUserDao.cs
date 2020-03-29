@@ -13,6 +13,7 @@ namespace Reface.AppStarter.Proxy.Tests.Dao
         string GetUserName(Guid id);
 
         [Logger]
+        [GenerateId]
         User GetById(Guid id);
 
         void Test();

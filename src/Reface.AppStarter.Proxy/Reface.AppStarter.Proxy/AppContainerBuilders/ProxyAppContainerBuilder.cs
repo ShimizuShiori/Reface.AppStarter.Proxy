@@ -2,9 +2,7 @@
 using Reface.AppStarter.AppContainers;
 using Reface.AppStarter.Attributes;
 using Reface.AppStarter.Proxy;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Reface.AppStarter.AppContainerBuilders
 {
@@ -19,7 +17,7 @@ namespace Reface.AppStarter.AppContainerBuilders
                 this.attributeAndTypeInfos.Add(info);
         }
 
-        public override IAppContainer Build(AppSetup setup)
+        public override void Prepare(AppSetup setup)
         {
             ProxyGenerator proxyGenerator = new ProxyGenerator();
             AutofacContainerBuilder autofacContainerBuilder = setup.GetAppContainerBuilder<AutofacContainerBuilder>();
@@ -30,12 +28,6 @@ namespace Reface.AppStarter.AppContainerBuilders
                 {
                     c.InjectPropeties(info.Attribute);
 
-                    //ClassProxyOnTypeInfo proxyOnTypeInfo = new ClassProxyOnTypeInfo(info.Type);
-                    //foreach (var attr in proxyOnTypeInfo.ProxiesOnClass)
-                    //    c.InjectPropeties(attr);
-                    //foreach (var attr in proxyOnTypeInfo.ProxiesOnMethod.SelectMany(x => x.Value))
-                    //    c.InjectPropeties(attr);
-
                     ImplementorAttributeExecuteInterceptor interceptor = new ImplementorAttributeExecuteInterceptor(info.Type, (ImplementorAttribute)info.Attribute);
                     var rlt = proxyGenerator.CreateInterfaceProxyWithoutTarget(
                         info.Type,
@@ -44,6 +36,10 @@ namespace Reface.AppStarter.AppContainerBuilders
                     return rlt;
                 }, info.Type);
             }
+        }
+
+        public override IAppContainer Build(AppSetup setup)
+        {
             return new ProxyAppContainer();
         }
     }
