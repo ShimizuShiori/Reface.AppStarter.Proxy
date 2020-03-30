@@ -19,8 +19,15 @@ namespace Reface.AppStarter.AppContainerBuilders
 
         public override void Prepare(AppSetup setup)
         {
-            ProxyGenerator proxyGenerator = new ProxyGenerator();
             AutofacContainerBuilder autofacContainerBuilder = setup.GetAppContainerBuilder<AutofacContainerBuilder>();
+            autofacContainerBuilder.Building += AutofacContainerBuilder_Building;
+        }
+
+        private void AutofacContainerBuilder_Building(object sender, AppContainerBuilderBuildEventArgs e)
+        {
+            ProxyGenerator proxyGenerator = new ProxyGenerator();
+            AutofacContainerBuilder autofacContainerBuilder
+                = (AutofacContainerBuilder)sender;
             foreach (var info in attributeAndTypeInfos)
             {
                 if (!info.Type.IsInterface) continue;

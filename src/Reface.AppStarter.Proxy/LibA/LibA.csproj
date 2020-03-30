@@ -1,20 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.props" Condition="Exists('..\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D39A8E4C-A98F-45E8-858E-56BEE43FE4E5}</ProjectGuid>
+    <ProjectGuid>{9F6836B8-7BB7-4AC1-A627-3CFA9BAF9E35}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Reface.AppStarter.Proxy.Tests</RootNamespace>
-    <AssemblyName>Reface.AppStarter.Proxy.Tests</AssemblyName>
+    <RootNamespace>LibA</RootNamespace>
+    <AssemblyName>LibA</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,20 +37,11 @@
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\MSTest.TestFramework.1.3.2\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\MSTest.TestFramework.1.3.2\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Reface.AppStarter, Version=0.10.11.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Reface.AppStarter.1.5.0\lib\net461\Reface.AppStarter.dll</HintPath>
-    </Reference>
-    <Reference Include="Reface.AppStarter.UnitTests, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Reface.AppStarter.UnitTests.1.0.2\lib\net461\Reface.AppStarter.UnitTests.dll</HintPath>
     </Reference>
     <Reference Include="Reface.CommandBus, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Reface.CommandBus.1.1.1\lib\net461\Reface.CommandBus.dll</HintPath>
@@ -78,40 +66,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\AutoDaoAttribute.cs" />
-    <Compile Include="Attributes\GenerateIdAttribute.cs" />
-    <Compile Include="Attributes\LoggerAttribute.cs" />
-    <Compile Include="Dao\IUserDao.cs" />
-    <Compile Include="LibAUserDaoTests.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="OthersTest.cs" />
+    <Compile Include="DaoAttribute.cs" />
+    <Compile Include="IUserDao.cs" />
+    <Compile Include="LibAAppModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\DefaultUserService.cs" />
-    <Compile Include="Services\IUserService.cs" />
-    <Compile Include="TestAppModule.cs" />
-    <Compile Include="UserDaoTests.cs" />
-    <Compile Include="UserServiceTests.cs" />
+    <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LibA\LibA.csproj">
-      <Project>{9f6836b8-7bb7-4ac1-a627-3cfa9baf9e35}</Project>
-      <Name>LibA</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Reface.AppStarter.Proxy\Reface.AppStarter.Proxy.csproj">
       <Project>{5c0437d2-8ddc-4003-9d0a-b101909b2440}</Project>
       <Name>Reface.AppStarter.Proxy</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.props'))" />
-    <Error Condition="!Exists('..\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.targets'))" />
-  </Target>
-  <Import Project="..\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.targets" Condition="Exists('..\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.targets')" />
 </Project>
