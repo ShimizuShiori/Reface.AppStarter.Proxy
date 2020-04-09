@@ -9,17 +9,17 @@ namespace Reface.AppStarter.Proxy.Tests.Attributes
     {
         public override void OnExecuted(ExecutedInfo executedInfo)
         {
-            Debug.WriteLine("LoggerAttribute.OnExecuted : " + executedInfo.Method.Name);
+            Debug.WriteLine($"{executedInfo.Method.DeclaringType.FullName}.{executedInfo.Method.Name} Executed");
         }
 
         public override void OnExecuteError(ExecuteErrorInfo executeErrorInfo)
         {
-            Debug.WriteLine("LoggerAttribute.OnExecuteError : " + executeErrorInfo.Method.Name);
+            Debug.WriteLine($"{executeErrorInfo.Method.DeclaringType.FullName}.{executeErrorInfo.Method.Name} Error");
         }
 
         public override void OnExecuting(ExecutingInfo executingInfo)
         {
-            Debug.WriteLine("LoggerAttribute.OnExecuting : " + executingInfo.Method.Name);
+            Debug.WriteLine($"{executingInfo.Method.DeclaringType.FullName}.{executingInfo.Method.Name} Executing");
         }
     }
 }

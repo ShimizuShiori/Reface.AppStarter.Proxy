@@ -44,6 +44,7 @@ namespace Reface.AppStarter.Proxy
                 try
                 {
                     invocation.Proceed();
+                    //invocation.Method.Invoke(invocation.Proxy, invocation.Arguments);
                 }
                 catch (Exception ex)
                 {

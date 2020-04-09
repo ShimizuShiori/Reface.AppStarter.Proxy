@@ -1,18 +1,25 @@
 ﻿using Reface.AppStarter.Attributes;
 using Reface.AppStarter.Proxy.Tests.Attributes;
 using Reface.AppStarter.Proxy.Tests.Models;
-using System;
+using System.Diagnostics;
 
 namespace Reface.AppStarter.Proxy.Tests.Services
 {
     [Component]
-    [Logger]
     public class DefaultUserService : IUserService
     {
-        [GenerateId]
+        [Logger]
+        public void Another()
+        {
+            
+        }
+
+        [Logger]
         public User Register(string name)
         {
+            Debug.WriteLine($"This.GetType() = {this.GetType().FullName}");
             User user = new User() { Name = name };
+            this.Another();
             return user;
         }
     }
