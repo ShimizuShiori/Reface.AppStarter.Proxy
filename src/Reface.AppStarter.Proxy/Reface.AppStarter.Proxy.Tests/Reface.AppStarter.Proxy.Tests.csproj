@@ -50,16 +50,16 @@
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Reface.AppStarter, Version=0.10.11.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Reface.AppStarter.1.5.0\lib\net461\Reface.AppStarter.dll</HintPath>
+      <HintPath>..\packages\Reface.AppStarter.2.0.4\lib\net461\Reface.AppStarter.dll</HintPath>
     </Reference>
     <Reference Include="Reface.AppStarter.UnitTests, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Reface.AppStarter.UnitTests.1.0.2\lib\net461\Reface.AppStarter.UnitTests.dll</HintPath>
+      <HintPath>..\packages\Reface.AppStarter.UnitTests.1.2.1\lib\net461\Reface.AppStarter.UnitTests.dll</HintPath>
     </Reference>
     <Reference Include="Reface.CommandBus, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Reface.CommandBus.1.1.1\lib\net461\Reface.CommandBus.dll</HintPath>
     </Reference>
     <Reference Include="Reface.EventBus, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Reface.EventBus.3.2.0\lib\net40\Reface.EventBus.dll</HintPath>
+      <HintPath>..\packages\Reface.EventBus.3.2.5\lib\net40\Reface.EventBus.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -78,13 +78,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ABTests.cs" />
+    <Compile Include="AppModules\ABAppModule.cs" />
+    <Compile Include="AppModules\JustAAppModule.cs" />
+    <Compile Include="AppModules\JustBAppModule.cs" />
     <Compile Include="Attributes\AutoDaoAttribute.cs" />
     <Compile Include="Attributes\GenerateIdAttribute.cs" />
     <Compile Include="Attributes\LoggerAttribute.cs" />
     <Compile Include="Dao\IUserDao.cs" />
+    <Compile Include="Events\SendMessageEvent.cs" />
+    <Compile Include="JustATests.cs" />
+    <Compile Include="JustBTests.cs" />
     <Compile Include="LibAUserDaoTests.cs" />
+    <Compile Include="Listeners\MessageGetter.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Modules\A\AAppModule.cs" />
+    <Compile Include="Modules\A\Attributes\AProxy.cs" />
+    <Compile Include="Modules\A\Services\AService.cs" />
+    <Compile Include="Modules\B\Attributes\BImplementor.cs" />
+    <Compile Include="Modules\B\BAppModule.cs" />
+    <Compile Include="Modules\B\Services\IBService.cs" />
     <Compile Include="OrderTests.cs" />
     <Compile Include="OthersTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,34 +1,26 @@
 ﻿using Reface.AppStarter.AppContainerBuilders;
+using Reface.AppStarter.Attributes;
 
 namespace Reface.AppStarter.AppModules
 {
-    public class ProxyAppModule : AppModule
+    /// <summary>
+    /// 代理模块。
+    /// 依赖该模块，实现得到以下功能 : 
+    /// 1. 为具有 <see cref="ProxyAttribute"/> 特征成员的类型创建代理类，调以 AOP 的方式调用这些 <see cref="ProxyAttribute"/>
+    /// 2. 为具有 <see cref="ImplementorAttribute"/> 特征的接口创建代理类，以动态实现这些接口中的方法
+    /// </summary>
+    public class ProxyAppModule : AppModule, INamespaceFilterer
     {
-        private readonly IAppModule targetModule = null;
+        public string[] IncludeNamespaces { get; set; }
 
-        /// <summary>
-        /// 通过构造函数指定一个 targetModule 可以更换获取代理类的 module
-        /// </summary>
-        /// <param name="targetModule"></param>
-        public ProxyAppModule(IAppModule targetModule)
-        {
-            this.targetModule = targetModule;
-        }
-        public ProxyAppModule() : this(null)
-        {
+        public string[] ExcludeNamespaces { get; set; }
 
-        }
-
-        public override void OnUsing(AppSetup setup, IAppModule targetModule)
+        public override void OnUsing(AppModuleUsingArguments arguments)
         {
+            var setup = arguments.AppSetup;
             ProxyAppContainerBuilder builder = setup.GetAppContainerBuilder<ProxyAppContainerBuilder>();
-            AppModuleScanResult infos;
-            if (this.targetModule != null)
-                infos = setup.GetScanResult(this.targetModule);
-            else
-                infos = setup.GetScanResult(targetModule);
 
-            infos.ScannableAttributeAndTypeInfos.ForEach(x => builder.RegisterProxyOfInterface(x));
+            arguments.ScannedAttributeAndTypeInfos.ForEach(x => builder.RegisterProxyOfInterface(x));
         }
     }
 }

@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace Reface.AppStarter.AppContainerBuilders
 {
+    /// <summary>
+    /// 代理容器构建器
+    /// </summary>
     public class ProxyAppContainerBuilder : BaseAppContainerBuilder
     {
         private readonly List<AttributeAndTypeInfo> attributeAndTypeInfos = new List<AttributeAndTypeInfo>();

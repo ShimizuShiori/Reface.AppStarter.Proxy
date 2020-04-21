@@ -7,6 +7,10 @@ namespace Reface.AppStarter.Proxy
     {
         public MethodInfo Method { get; private set; }
         public object[] Arguments { get; private set; }
+        
+        /// <summary>
+        /// 执行发生异常时的异常
+        /// </summary>
         public Exception Error { get; private set; }
 
         /// <summary>

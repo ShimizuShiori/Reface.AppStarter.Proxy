@@ -1,16 +1,19 @@
 ﻿using Castle.Core.Interceptor;
 using Castle.DynamicProxy;
 using Reface.AppStarter.Attributes;
+using Reface.AppStarter.AutofacExt;
 using Reface.AppStarter.Proxy;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
 namespace Reface.AppStarter.AppContainers
 {
+    /// <summary>
+    /// 代理容器
+    /// </summary>
     public class ProxyAppContainer : IProxyAppContainer
     {
         public class TypeHasProxyInfo
@@ -79,7 +82,7 @@ namespace Reface.AppStarter.AppContainers
         /// </summary>
         /// <param name="e"></param>
         /// <returns></returns>
-        private TypeHasProxyInfo GetTypeHadProxyInfo(AutofacExt.ComponentCreatingEventArgs e)
+        private TypeHasProxyInfo GetTypeHadProxyInfo(ComponentCreatingEventArgs e)
         {
             TypeHasProxyInfo info = cacheForTypeHasProxy.GetOrAdd(e.CreatedObject.GetType(), type =>
             {

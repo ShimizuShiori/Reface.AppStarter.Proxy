@@ -23,7 +23,7 @@ namespace Reface.AppStarter.Proxy
         public object[] Arguments { get; private set; }
 
         /// <summary>
-        /// 通过动态实现返回的值
+        /// 通过动态实现返回的值，你可以手动为其赋值
         /// </summary>
         public object ReturnValue { get; set; }
 
