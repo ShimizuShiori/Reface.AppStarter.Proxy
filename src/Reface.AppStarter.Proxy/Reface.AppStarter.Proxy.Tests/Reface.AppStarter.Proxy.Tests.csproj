@@ -49,14 +49,14 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Reface.AppStarter, Version=0.10.11.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Reface.AppStarter.2.0.4\lib\net461\Reface.AppStarter.dll</HintPath>
+    <Reference Include="Reface.AppStarter, Version=2.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Reface.AppStarter.2.0.5\lib\net461\Reface.AppStarter.dll</HintPath>
     </Reference>
     <Reference Include="Reface.AppStarter.UnitTests, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Reface.AppStarter.UnitTests.1.2.1\lib\net461\Reface.AppStarter.UnitTests.dll</HintPath>
     </Reference>
-    <Reference Include="Reface.CommandBus, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Reface.CommandBus.1.1.1\lib\net461\Reface.CommandBus.dll</HintPath>
+    <Reference Include="Reface.CommandBus, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Reface.CommandBus.2.0.1\lib\net461\Reface.CommandBus.dll</HintPath>
     </Reference>
     <Reference Include="Reface.EventBus, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Reface.EventBus.3.2.5\lib\net40\Reface.EventBus.dll</HintPath>

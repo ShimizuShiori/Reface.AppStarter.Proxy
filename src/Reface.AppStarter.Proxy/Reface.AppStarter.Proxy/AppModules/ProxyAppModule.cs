@@ -9,7 +9,7 @@ namespace Reface.AppStarter.AppModules
     /// 1. 为具有 <see cref="ProxyAttribute"/> 特征成员的类型创建代理类，调以 AOP 的方式调用这些 <see cref="ProxyAttribute"/>
     /// 2. 为具有 <see cref="ImplementorAttribute"/> 特征的接口创建代理类，以动态实现这些接口中的方法
     /// </summary>
-    public class ProxyAppModule : AppModule, INamespaceFilterer
+    public class ProxyAppModule : AppModule, INamespaceFilter
     {
         public string[] IncludeNamespaces { get; set; }
 
