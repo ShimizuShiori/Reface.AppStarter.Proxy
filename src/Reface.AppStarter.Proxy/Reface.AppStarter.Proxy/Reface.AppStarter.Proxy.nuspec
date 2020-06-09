@@ -10,10 +10,10 @@
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/ShimizuShiori/Reface.AppStarter.Proxy</projectUrl>
     <description>基于 Reface.AppStarter 的模块，允许用户简单的创建类或接口的代理类，实现 AOP 、动态实现等功能</description>
-    <copyright>Copyright © 2002 ShimizuShiori. All rights reserved.</copyright>
+    <copyright>Copyright © 2002 Felix. All rights reserved.</copyright>
     <tags>AOP Dynamic</tags>
     <dependencies>
-      <dependency id="Reface.AppStarter" version="2.0.5" />
+      <dependency id="Reface.AppStarter" version="2.1.7" />
       <dependency id="Castle.DynamicProxy" version="2.2.0" />
     </dependencies>
   </metadata>
