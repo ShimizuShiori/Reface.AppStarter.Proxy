@@ -49,8 +49,8 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Reface.AppStarter, Version=2.0.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Reface.AppStarter.2.0.5\lib\net461\Reface.AppStarter.dll</HintPath>
+    <Reference Include="Reface.AppStarter, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Reface.AppStarter.2.1.6\lib\net461\Reface.AppStarter.dll</HintPath>
     </Reference>
     <Reference Include="Reface.AppStarter.UnitTests, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Reface.AppStarter.UnitTests.1.2.1\lib\net461\Reface.AppStarter.UnitTests.dll</HintPath>
@@ -58,8 +58,8 @@
     <Reference Include="Reface.CommandBus, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Reface.CommandBus.2.0.1\lib\net461\Reface.CommandBus.dll</HintPath>
     </Reference>
-    <Reference Include="Reface.EventBus, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Reface.EventBus.3.2.5\lib\net40\Reface.EventBus.dll</HintPath>
+    <Reference Include="Reface.EventBus, Version=3.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Reface.EventBus.3.2.7\lib\net40\Reface.EventBus.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -85,8 +85,12 @@
     <Compile Include="Attributes\AutoDaoAttribute.cs" />
     <Compile Include="Attributes\GenerateIdAttribute.cs" />
     <Compile Include="Attributes\LoggerAttribute.cs" />
+    <Compile Include="Attributes\SubThreadAttribute.cs" />
     <Compile Include="Dao\IUserDao.cs" />
     <Compile Include="Events\SendMessageEvent.cs" />
+    <Compile Include="ExtendInterfaceTests.cs" />
+    <Compile Include="GetAttrsTests.cs" />
+    <Compile Include="InvokeOriginalMethodTests.cs" />
     <Compile Include="JustATests.cs" />
     <Compile Include="JustBTests.cs" />
     <Compile Include="LibAUserDaoTests.cs" />
@@ -104,6 +108,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DefaultOrderService.cs" />
     <Compile Include="Services\DefaultUserService.cs" />
+    <Compile Include="Services\IFileService.cs" />
     <Compile Include="Services\IOrderService.cs" />
     <Compile Include="Services\IUserService.cs" />
     <Compile Include="TestAppModule.cs" />

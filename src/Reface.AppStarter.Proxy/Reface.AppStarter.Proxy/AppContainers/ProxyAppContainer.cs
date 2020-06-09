@@ -1,7 +1,6 @@
 ﻿using Castle.Core.Interceptor;
 using Castle.DynamicProxy;
 using Reface.AppStarter.Attributes;
-using Reface.AppStarter.AutofacExt;
 using Reface.AppStarter.Proxy;
 using System;
 using System.Collections.Concurrent;
@@ -16,19 +15,7 @@ namespace Reface.AppStarter.AppContainers
     /// </summary>
     public class ProxyAppContainer : IProxyAppContainer
     {
-        public class TypeHasProxyInfo
-        {
-            public Type Type { get; private set; }
-            public Boolean HasProxy { get; private set; }
-
-            public TypeHasProxyInfo(Type type, bool hasProxy)
-            {
-                Type = type;
-                HasProxy = hasProxy;
-            }
-        }
-
-        private readonly ConcurrentDictionary<Type, TypeHasProxyInfo> cacheForTypeHasProxy = new ConcurrentDictionary<Type, TypeHasProxyInfo>();
+        private readonly ConcurrentDictionary<Type, ProxyInfo> cacheForTypeHasProxy = new ConcurrentDictionary<Type, ProxyInfo>();
         private readonly ProxyGenerator proxyGenerator = new ProxyGenerator();
         private App thisApp;
 
@@ -43,25 +30,18 @@ namespace Reface.AppStarter.AppContainers
             componentContainer.ComponentCreating += ComponentContainer_ComponentCreating;
         }
 
-        private bool IsDynamicImplemented(object value)
+        private void ComponentContainer_ComponentCreating(object sender, ComponentCreatingEventArgs e)
         {
-            if (!(value is IProxyTargetAccessor)) return false;
-            IProxyTargetAccessor proxyTargetAccessor = value as IProxyTargetAccessor;
-            IInterceptor[] interceptors = proxyTargetAccessor.GetInterceptors();
-            if (interceptors == null) return false;
-            IEnumerable<ImplementorAttributeExecuteInterceptor> myInterceptor
-                 = interceptors.OfType<ImplementorAttributeExecuteInterceptor>();
-            if (!myInterceptor.Any()) return false;
-            return true;
-        }
-
-        private void ComponentContainer_ComponentCreating(object sender, AutofacExt.ComponentCreatingEventArgs e)
-        {
-            TypeHasProxyInfo info = GetTypeHadProxyInfo(e);
+            ProxyInfo info = GetProxyInfo(e);
             if (!info.HasProxy) return;
 
             // 对特征的属性进行注入
-            ClassProxyOnTypeInfo proxyOnTypeInfo = new ClassProxyOnTypeInfo(info.Type);
+            ProxyOnTypeInfo proxyOnTypeInfo;
+
+            if (info.IsDynamicImplemented)
+                proxyOnTypeInfo = ProxyOnTypeInfo.CreateByInterface(info.Type);
+            else
+                proxyOnTypeInfo = ProxyOnTypeInfo.CreateByNormalType(info.Type);
             foreach (var attr in proxyOnTypeInfo.ProxiesOnClass)
                 e.ComponentManager.InjectPropeties(attr);
             foreach (var attr in proxyOnTypeInfo.ProxiesOnMethod.SelectMany(x => x.Value))
@@ -82,9 +62,9 @@ namespace Reface.AppStarter.AppContainers
         /// </summary>
         /// <param name="e"></param>
         /// <returns></returns>
-        private TypeHasProxyInfo GetTypeHadProxyInfo(ComponentCreatingEventArgs e)
+        private ProxyInfo GetProxyInfo(ComponentCreatingEventArgs e)
         {
-            TypeHasProxyInfo info = cacheForTypeHasProxy.GetOrAdd(e.CreatedObject.GetType(), type =>
+            ProxyInfo info = cacheForTypeHasProxy.GetOrAdd(e.CreatedObject.GetType(), type =>
             {
                 /**
                  * 动态实现的接口，是无法将 AOP 特征挂载在 class 上的。
@@ -94,12 +74,15 @@ namespace Reface.AppStarter.AppContainers
                  * 当创建的对象是动态实现的时候，将对 Interface 判断是否存在 AOP 特征；
                  * 当创建的对象不是动态实现的时候，将对该对象本身判断是否存在 AOP 特征。
                  */
-                if (IsDynamicImplemented(e.CreatedObject))
+
+                bool isDynamicImplemented = e.CreatedObject.IsDynamicImplemented();
+
+                if (isDynamicImplemented)
                     type = e.RequiredType;
 
                 bool hasProxy = type.GetCustomAttributes<ProxyAttribute>().Any();
                 if (!hasProxy) hasProxy = type.GetMethods().Where(m => m.GetCustomAttributes<ProxyAttribute>().Any()).Any();
-                return new TypeHasProxyInfo(type, hasProxy);
+                return new ProxyInfo(type, hasProxy, isDynamicImplemented);
             });
             return info;
         }

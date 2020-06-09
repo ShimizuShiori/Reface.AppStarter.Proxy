@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Reface.AppStarter.Proxy
 {
@@ -12,6 +8,11 @@ namespace Reface.AppStarter.Proxy
     /// </summary>
     public class InterfaceInvocationInfo
     {
+        /// <summary>
+        /// 调用的接口类型
+        /// </summary>
+        public Type InterfaceType { get; private set; }
+
         /// <summary>
         /// 调用的方法
         /// </summary>
@@ -27,8 +28,9 @@ namespace Reface.AppStarter.Proxy
         /// </summary>
         public object ReturnValue { get; set; }
 
-        public InterfaceInvocationInfo(MethodInfo method, object[] arguments)
+        internal InterfaceInvocationInfo(Type interfaceType, MethodInfo method, object[] arguments)
         {
+            InterfaceType = interfaceType;
             Method = method;
             Arguments = arguments;
         }

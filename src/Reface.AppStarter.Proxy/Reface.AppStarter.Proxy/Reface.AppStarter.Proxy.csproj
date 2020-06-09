@@ -64,14 +64,14 @@
     <Reference Include="NLog, Version=1.0.0.505, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.1.0.0.505\lib\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="Reface.AppStarter, Version=2.0.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Reface.AppStarter.2.0.5\lib\net461\Reface.AppStarter.dll</HintPath>
+    <Reference Include="Reface.AppStarter, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Reface.AppStarter.2.1.6\lib\net461\Reface.AppStarter.dll</HintPath>
     </Reference>
     <Reference Include="Reface.CommandBus, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Reface.CommandBus.2.0.1\lib\net461\Reface.CommandBus.dll</HintPath>
     </Reference>
-    <Reference Include="Reface.EventBus, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Reface.EventBus.3.2.5\lib\net40\Reface.EventBus.dll</HintPath>
+    <Reference Include="Reface.EventBus, Version=3.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Reface.EventBus.3.2.7\lib\net40\Reface.EventBus.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -99,11 +99,12 @@
     <Compile Include="ExecutedInfo.cs" />
     <Compile Include="ExecuteErrorInfo.cs" />
     <Compile Include="ExecutingInfo.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="ImplementorAttributeExecuteInterceptor.cs" />
     <Compile Include="InterfaceInvocationInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProxyAttributeExecuteInterceptor.cs" />
-    <Compile Include="ClassProxyOnTypeInfo.cs" />
+    <Compile Include="ProxyOnTypeInfo.cs" />
     <Compile Include="ReturnedValueSources.cs" />
   </ItemGroup>
   <ItemGroup>

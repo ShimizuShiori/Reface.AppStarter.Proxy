@@ -2,16 +2,19 @@
 using Reface.AppStarter.Attributes;
 using System;
 using System.Linq;
-using System.Net;
 using System.Reflection;
 
 namespace Reface.AppStarter.Proxy
 {
-    public class ProxyAttributeExecuteInterceptor : IInterceptor
+    /// <summary>
+    /// 执行加载由 <see cref="ProxyAttribute"/> 提供的切面的中断器。
+    /// 该类仅向 Caslte.ProxyDynamic2 提供功能
+    /// </summary>
+    class ProxyAttributeExecuteInterceptor : IInterceptor
     {
-        private readonly ClassProxyOnTypeInfo proxyOnTypeInfo;
+        private readonly ProxyOnTypeInfo proxyOnTypeInfo;
 
-        public ProxyAttributeExecuteInterceptor(ClassProxyOnTypeInfo proxyOnTypeInfo)
+        public ProxyAttributeExecuteInterceptor(ProxyOnTypeInfo proxyOnTypeInfo)
         {
             this.proxyOnTypeInfo = proxyOnTypeInfo;
         }
@@ -29,7 +32,7 @@ namespace Reface.AppStarter.Proxy
             var proxies = this.proxyOnTypeInfo.ProxiesOnClass;
             proxies = proxies.Concat(this.proxyOnTypeInfo.ProxiesOnMethod[methodInfo.ToString()]);
 
-            ExecutingInfo executingInfo = new ExecutingInfo(methodInfo, invocation.Arguments);
+            ExecutingInfo executingInfo = new ExecutingInfo(methodInfo, invocation.Arguments, invocation);
 
             foreach (ProxyAttribute proxy in proxies)
                 proxy.OnExecuting(executingInfo);

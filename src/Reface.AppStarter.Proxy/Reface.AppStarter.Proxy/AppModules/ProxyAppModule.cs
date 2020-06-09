@@ -20,7 +20,7 @@ namespace Reface.AppStarter.AppModules
             var setup = arguments.AppSetup;
             ProxyAppContainerBuilder builder = setup.GetAppContainerBuilder<ProxyAppContainerBuilder>();
 
-            arguments.ScannedAttributeAndTypeInfos.ForEach(x => builder.RegisterProxyOfInterface(x));
+            arguments.ScannedAttributeAndTypeInfos.ForEach(x => builder.RegisterImplementor(x));
         }
     }
 }

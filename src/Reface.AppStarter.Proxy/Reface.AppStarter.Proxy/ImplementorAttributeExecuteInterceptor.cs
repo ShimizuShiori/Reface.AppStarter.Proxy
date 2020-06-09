@@ -4,7 +4,7 @@ using System;
 
 namespace Reface.AppStarter.Proxy
 {
-    public class ImplementorAttributeExecuteInterceptor : IInterceptor
+    class ImplementorAttributeExecuteInterceptor : IInterceptor
     {
         public Type InterfaceType { get; private set; }
         public ImplementorAttribute Implementor { get; private set; }
@@ -17,7 +17,7 @@ namespace Reface.AppStarter.Proxy
 
         public void Intercept(IInvocation invocation)
         {
-            InterfaceInvocationInfo info = new InterfaceInvocationInfo(invocation.Method.GetBaseDefinition(), invocation.Arguments);
+            InterfaceInvocationInfo info = new InterfaceInvocationInfo(this.InterfaceType, invocation.Method.GetBaseDefinition(), invocation.Arguments);
             this.Implementor.Intercept(info);
             invocation.ReturnValue = info.ReturnValue;
         }

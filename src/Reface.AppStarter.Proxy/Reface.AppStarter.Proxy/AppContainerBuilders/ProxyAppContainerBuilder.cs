@@ -13,7 +13,11 @@ namespace Reface.AppStarter.AppContainerBuilders
     {
         private readonly List<AttributeAndTypeInfo> attributeAndTypeInfos = new List<AttributeAndTypeInfo>();
 
-        public void RegisterProxyOfInterface(AttributeAndTypeInfo info)
+        /// <summary>
+        /// 注册一个动态实现类的信息。
+        /// </summary>
+        /// <param name="info"></param>
+        public void RegisterImplementor(AttributeAndTypeInfo info)
         {
             if (!info.Type.IsInterface) return;
             if (info.Attribute is ImplementorAttribute)

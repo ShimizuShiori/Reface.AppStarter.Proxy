@@ -2,10 +2,10 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Reface.AppStarter.Proxy</id>
-    <version>1.4.1</version>
+    <version>1.4.4</version>
     <title>Reface.AppStarter.Proxy</title>
-    <authors>ShimizuShiori</authors>
-    <owners>ShimizuShiori</owners>
+    <authors>Felix</authors>
+    <owners>Felix</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <license type="expression">MIT</license>
     <projectUrl>https://github.com/ShimizuShiori/Reface.AppStarter.Proxy</projectUrl>
@@ -13,7 +13,7 @@
     <copyright>Copyright © 2002 ShimizuShiori. All rights reserved.</copyright>
     <tags>AOP Dynamic</tags>
     <dependencies>
-      <dependency id="Reface.AppStarter" version="2.0.3" />
+      <dependency id="Reface.AppStarter" version="2.0.5" />
       <dependency id="Castle.DynamicProxy" version="2.2.0" />
     </dependencies>
   </metadata>

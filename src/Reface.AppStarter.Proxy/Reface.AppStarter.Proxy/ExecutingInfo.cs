@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Castle.Core.Interceptor;
+using System;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace Reface.AppStarter.Proxy
 {
@@ -33,10 +35,13 @@ namespace Reface.AppStarter.Proxy
         /// </summary>
         public object ReturnedValue { get; private set; } = null;
 
-        public ExecutingInfo(MethodInfo method, object[] arguments)
+        private readonly IInvocation invocation;
+
+        public ExecutingInfo(MethodInfo method, object[] arguments, IInvocation invocation)
         {
             Method = method;
             Arguments = arguments;
+            this.invocation = invocation;
         }
 
 
@@ -79,9 +84,23 @@ namespace Reface.AppStarter.Proxy
         {
             if (this.SkipExecuteOriginalMethod)
                 throw new ApplicationException("该方法已从某个代理中产生了返回的值，无法产生新的返回值");
-            
+
             this.SkipExecuteOriginalMethod = true;
             this.ReturnedValue = value;
+        }
+
+        /// <summary>
+        /// 执行原方法并返回原方法的结果
+        /// </summary>
+        /// <param name="asReturnValue">是否作为值返回</param>
+        /// <returns></returns>
+        public object InvokeOriginalMethod(bool asReturnValue = true)
+        {
+            this.invocation.Proceed();
+            object result = this.invocation.ReturnValue;
+            if (asReturnValue)
+                this.Return(result);
+            return result;
         }
     }
 }
