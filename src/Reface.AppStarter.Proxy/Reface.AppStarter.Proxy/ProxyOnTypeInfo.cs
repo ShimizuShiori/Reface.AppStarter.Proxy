@@ -24,6 +24,11 @@ namespace Reface.AppStarter.Proxy
             ProxiesOnMethod = proxiesOnMethod;
         }
 
+        /// <summary>
+        /// 基于普通类型创建
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static ProxyOnTypeInfo CreateByNormalType(Type type)
         {
             var proxiesOnClass = type.GetCustomAttributes<ProxyAttribute>();
@@ -38,6 +43,11 @@ namespace Reface.AppStarter.Proxy
             return new ProxyOnTypeInfo(type, proxiesOnClass, proxiesOnMethod);
         }
 
+        /// <summary>
+        /// 基于接口类型创建
+        /// </summary>
+        /// <param name="interfaceType"></param>
+        /// <returns></returns>
         public static ProxyOnTypeInfo CreateByInterface(Type interfaceType)
         {
             Type[] baseInterfaces = interfaceType.GetInterfaces();

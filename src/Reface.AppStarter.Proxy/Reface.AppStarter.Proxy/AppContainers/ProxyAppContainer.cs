@@ -1,10 +1,8 @@
-﻿using Castle.Core.Interceptor;
-using Castle.DynamicProxy;
+﻿using Castle.DynamicProxy;
 using Reface.AppStarter.Attributes;
 using Reface.AppStarter.Proxy;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -17,7 +15,6 @@ namespace Reface.AppStarter.AppContainers
     {
         private readonly ConcurrentDictionary<Type, ProxyInfo> cacheForTypeHasProxy = new ConcurrentDictionary<Type, ProxyInfo>();
         private readonly ProxyGenerator proxyGenerator = new ProxyGenerator();
-        private App thisApp;
 
         public void Dispose()
         {
@@ -25,7 +22,6 @@ namespace Reface.AppStarter.AppContainers
 
         public void OnAppPrepair(App app)
         {
-            this.thisApp = app;
             IComponentContainer componentContainer = app.GetAppContainer<IComponentContainer>();
             componentContainer.ComponentCreating += ComponentContainer_ComponentCreating;
         }
@@ -42,10 +38,11 @@ namespace Reface.AppStarter.AppContainers
                 proxyOnTypeInfo = ProxyOnTypeInfo.CreateByInterface(info.Type);
             else
                 proxyOnTypeInfo = ProxyOnTypeInfo.CreateByNormalType(info.Type);
+
             foreach (var attr in proxyOnTypeInfo.ProxiesOnClass)
-                e.ComponentManager.InjectPropeties(attr);
+                e.ComponentManager.InjectProperties(attr);
             foreach (var attr in proxyOnTypeInfo.ProxiesOnMethod.SelectMany(x => x.Value))
-                e.ComponentManager.InjectPropeties(attr);
+                e.ComponentManager.InjectProperties(attr);
 
             ProxyAttributeExecuteInterceptor proxyAttributeExecuteInterceptor = new ProxyAttributeExecuteInterceptor(proxyOnTypeInfo);
             var newInstance = proxyGenerator.CreateInterfaceProxyWithTarget(

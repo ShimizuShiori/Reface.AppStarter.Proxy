@@ -40,7 +40,7 @@ namespace Reface.AppStarter.AppContainerBuilders
                 if (!info.Type.IsInterface) continue;
                 autofacContainerBuilder.RegisterByCreator(c =>
                 {
-                    c.InjectPropeties(info.Attribute);
+                    c.InjectProperties(info.Attribute);
 
                     ImplementorAttributeExecuteInterceptor interceptor = new ImplementorAttributeExecuteInterceptor(info.Type, (ImplementorAttribute)info.Attribute);
                     var rlt = proxyGenerator.CreateInterfaceProxyWithoutTarget(
