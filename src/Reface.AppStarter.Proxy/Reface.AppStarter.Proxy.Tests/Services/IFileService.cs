@@ -2,7 +2,6 @@
 using Reface.AppStarter.Proxy.Tests.Attributes;
 using System;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Reface.AppStarter.Proxy.Tests.Services
 {

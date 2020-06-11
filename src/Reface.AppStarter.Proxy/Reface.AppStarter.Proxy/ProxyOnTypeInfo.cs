@@ -14,10 +14,10 @@ namespace Reface.AppStarter.Proxy
     class ProxyOnTypeInfo
     {
         public Type Type { get; private set; }
-        public IEnumerable<ProxyAttribute> ProxiesOnClass { get; private set; }
-        public Dictionary<string, IEnumerable<ProxyAttribute>> ProxiesOnMethod { get; private set; }
+        public IEnumerable<IProxy> ProxiesOnClass { get; set; }
+        public Dictionary<string, IEnumerable<IProxy>> ProxiesOnMethod { get; set; }
 
-        private ProxyOnTypeInfo(Type type, IEnumerable<ProxyAttribute> proxiesOnClass, Dictionary<string, IEnumerable<ProxyAttribute>> proxiesOnMethod)
+        private ProxyOnTypeInfo(Type type, IEnumerable<IProxy> proxiesOnClass, Dictionary<string, IEnumerable<IProxy>> proxiesOnMethod)
         {
             Type = type;
             ProxiesOnClass = proxiesOnClass;
@@ -32,7 +32,7 @@ namespace Reface.AppStarter.Proxy
         public static ProxyOnTypeInfo CreateByNormalType(Type type)
         {
             var proxiesOnClass = type.GetCustomAttributes<ProxyAttribute>();
-            var proxiesOnMethod = new Dictionary<string, IEnumerable<ProxyAttribute>>();
+            var proxiesOnMethod = new Dictionary<string, IEnumerable<IProxy>>();
             type.GetMethods()
                 .Select(x => new
                 {
@@ -54,8 +54,8 @@ namespace Reface.AppStarter.Proxy
             List<Type> allTypes = new List<Type>(baseInterfaces);
             allTypes.Add(interfaceType);
 
-            List<ProxyAttribute> proxiesOnType = new List<ProxyAttribute>();
-            Dictionary<string, IEnumerable<ProxyAttribute>> proxiesOnMethods = new Dictionary<string, IEnumerable<ProxyAttribute>>();
+            List<IProxy> proxiesOnType = new List<IProxy>();
+            Dictionary<string, IEnumerable<IProxy>> proxiesOnMethods = new Dictionary<string, IEnumerable<IProxy>>();
 
             allTypes.ForEach(type =>
             {

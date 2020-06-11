@@ -91,6 +91,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppContainerBuilders\ProxyAppContainerBuilder.cs" />
+    <Compile Include="AppContainers\ProxyAppContainerOptions.cs" />
+    <Compile Include="Attributes\CustomProxyAttribute.cs" />
+    <Compile Include="CustomProxyRuntimeInfo.cs" />
+    <Compile Include="ICustomProxyAttachmentCondition.cs" />
+    <Compile Include="CustomProxyInfo.cs" />
     <Compile Include="Attributes\ImplementorAttribute.cs" />
     <Compile Include="AppContainers\IProxyAppContainer.cs" />
     <Compile Include="AppContainers\ProxyAppContainer.cs" />
@@ -102,6 +107,7 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="ImplementorAttributeExecuteInterceptor.cs" />
     <Compile Include="InterfaceInvocationInfo.cs" />
+    <Compile Include="IProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProxyAttributeExecuteInterceptor.cs" />
     <Compile Include="ProxyInfo.cs" />

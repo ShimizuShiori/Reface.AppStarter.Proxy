@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Reface.AppStarter.Proxy
 {
+    [DebuggerDisplay("{Type} : {HasProxy}")]
     /// <summary>
     /// 代理信息
     /// </summary>
