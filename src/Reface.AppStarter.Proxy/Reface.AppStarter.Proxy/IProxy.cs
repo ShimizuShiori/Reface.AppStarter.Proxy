@@ -1,7 +1,10 @@
-﻿namespace Reface.AppStarter.Proxy
+﻿using Reface.AppStarter.Attributes;
+
+namespace Reface.AppStarter.Proxy
 {
     /// <summary>
-    /// 代理接口
+    /// 代理接口。<br />
+    /// 你可以通过 <see cref="ProxyAttribute"/> 和 <see cref="AttachedProxyAttribute"/> 两种方法使用。
     /// </summary>
     public interface IProxy
     {

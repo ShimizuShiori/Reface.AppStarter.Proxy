@@ -1,17 +1,19 @@
 ﻿using Reface.AppStarter.Attributes;
 using Reface.AppStarter.Proxy.Attachments;
-using Reface.AppStarter.Proxy.Tests.Services;
-using System.Diagnostics;
 
 namespace Reface.AppStarter.Proxy.Tests.Proxies
 {
     [AttachedProxy]
-    [CanCastAs(typeof(IFileService))]
-    public class SetHelloToContext : IProxy
+    [HasMethod
+        (
+            MethodName = "Plus",
+            ReturnType = typeof(int)
+        )]
+    public class ProxyMatchMethod : IProxy
     {
         private readonly App app;
 
-        public SetHelloToContext(App app)
+        public ProxyMatchMethod(App app)
         {
             this.app = app;
         }
@@ -22,6 +24,7 @@ namespace Reface.AppStarter.Proxy.Tests.Proxies
 
         public void OnExecuteError(ExecuteErrorInfo executeErrorInfo)
         {
+
         }
 
         public void OnExecuting(ExecutingInfo executingInfo)

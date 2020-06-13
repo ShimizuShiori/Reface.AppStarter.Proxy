@@ -5,7 +5,6 @@ using Reface.AppStarter.Proxy;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
@@ -18,17 +17,24 @@ namespace Reface.AppStarter.AppContainers
     {
         private readonly ConcurrentDictionary<Type, ProxyInfo> cacheForTypeHasProxy = new ConcurrentDictionary<Type, ProxyInfo>();
         private readonly ProxyGenerator proxyGenerator = new ProxyGenerator();
-        private readonly IEnumerable<CustomProxyRuntimeInfo> customProxyInfos;
+        private readonly IEnumerable<AttachedProxyRuntimeInfo> attahcedProxyInfo;
 
         public ProxyAppContainer(ProxyAppContainerOptions options)
         {
-            this.customProxyInfos = options.CustomProxyInfos
-                .Select(info => new CustomProxyRuntimeInfo()
+            var list = new List<AttachedProxyRuntimeInfo>();
+            options.AttachedProxyInfo.ForEach(info =>
+            {
+                if (!info.Attachments.Any()) return;
+                info.Attachments.ForEach(att =>
                 {
-                    AttachmentCondition = Activator.CreateInstance(info.AttachmentConditionType) as ICustomProxyAttachmentCondition,
-                    ProxyType = info.ProxyType
+                    list.Add(new AttachedProxyRuntimeInfo()
+                    {
+                        Attachment = att,
+                        ProxyType = info.ProxyType
+                    });
                 });
-            Debug.WriteLine("CustomProxyInfo Count = {0}", this.customProxyInfos.Count());
+            });
+            this.attahcedProxyInfo = list;
         }
 
         public void Dispose()
@@ -43,8 +49,10 @@ namespace Reface.AppStarter.AppContainers
 
         private void ComponentContainer_ComponentCreating(object sender, ComponentCreatingEventArgs e)
         {
+            if (!e.RequiredType.IsInterface)
+                return;
+
             ProxyInfo info = GetProxyInfo(e);
-            Debug.WriteLine("ProxyInfo = {0},{1}", info.Type, info.HasProxy);
             if (!info.HasProxy) return;
 
             // 对特征的属性进行注入
@@ -56,10 +64,10 @@ namespace Reface.AppStarter.AppContainers
                 proxyOnTypeInfo = ProxyOnTypeInfo.CreateByNormalType(info.Type);
 
             // 从所有的自定义代理中查找针对当前类型的代理
-            var customProxies = this.customProxyInfos.Where(x => x.AttachmentCondition.CanAttach(info.Type))
-                            .Select(x => Activator.CreateInstance(x.ProxyType))
-                            .OfType<IProxy>();
-            Debug.WriteLine("Attached Proxy Count = {0}", customProxies.Count());
+            var customProxies = this.attahcedProxyInfo.Where(x => x.Attachment.CanAttach(info.Type))
+                .Select(x => e.ComponentManager.CreateComponent(x.ProxyType))
+                .OfType<IProxy>()
+                .ToList();
 
             // 若存在自定义代理，则将已有的类型代理自定义代理合并
             if (customProxies.Any())
@@ -132,9 +140,9 @@ namespace Reface.AppStarter.AppContainers
         {
             return Predicate.Create(() =>
             {
-                foreach (var item in this.customProxyInfos)
+                foreach (var item in this.attahcedProxyInfo)
                 {
-                    if (!item.AttachmentCondition.CanAttach(type))
+                    if (!item.Attachment.CanAttach(type))
                         continue;
                     return true;
                 }

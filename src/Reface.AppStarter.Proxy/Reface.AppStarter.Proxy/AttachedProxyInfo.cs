@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Reface.AppStarter.Proxy
 {
-    public class CustomProxyRuntimeInfo
+    /// <summary>
+    /// 自定义代理信息
+    /// </summary>
+    public class AttachedProxyInfo
     {
         /// <summary>
-        /// 附加代理的条件
+        /// 附加器
         /// </summary>
-        public ICustomProxyAttachmentCondition AttachmentCondition { get; set; }
+        public IEnumerable<IAttachment> Attachments { get; set; }
 
         /// <summary>
         /// 代理的类型

@@ -1,7 +1,8 @@
 ﻿using Reface.AppStarter.AppContainerBuilders;
-using Reface.AppStarter.AppModulePrepairs;
 using Reface.AppStarter.Attributes;
 using Reface.AppStarter.Proxy;
+using System.Linq;
+using System.Reflection;
 
 namespace Reface.AppStarter.AppModules
 {
@@ -25,12 +26,19 @@ namespace Reface.AppStarter.AppModules
             arguments.ScannedAttributeAndTypeInfos.ForEach(x =>
             {
                 builder.RegisterImplementor(x);
-                if (x.Attribute is CustomProxyAttribute cpa)
-                    builder.AppendProxy(new CustomProxyInfo()
-                    {
-                        ProxyType = x.Type,
-                        AttachmentConditionType = cpa.AttachmentConditionType
-                    });
+                if (!(x.Attribute is AttachedProxyAttribute))
+                    return;
+
+                var attachments = x.Type.GetCustomAttributes<AttachmentAttribute>();
+                if (!attachments.Any())
+                    return;
+
+                builder.AppendProxy(new AttachedProxyInfo()
+                {
+                    ProxyType = x.Type,
+                    Attachments = attachments
+                });
+
             });
         }
     }

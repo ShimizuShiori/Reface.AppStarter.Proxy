@@ -2,15 +2,12 @@
 
 namespace Reface.AppStarter.Proxy
 {
-    /// <summary>
-    /// 自定义代理信息
-    /// </summary>
-    public class CustomProxyInfo
+    public class AttachedProxyRuntimeInfo
     {
         /// <summary>
         /// 附加代理的条件
         /// </summary>
-        public Type AttachmentConditionType { get; set; }
+        public IAttachment Attachment { get; set; }
 
         /// <summary>
         /// 代理的类型

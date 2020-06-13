@@ -12,7 +12,7 @@ namespace Reface.AppStarter.AppContainerBuilders
     public class ProxyAppContainerBuilder : BaseAppContainerBuilder
     {
         private readonly List<AttributeAndTypeInfo> attributeAndTypeInfos = new List<AttributeAndTypeInfo>();
-        private readonly List<CustomProxyInfo> customProxyInfos = new List<CustomProxyInfo>();
+        private readonly List<AttachedProxyInfo> attachedProxyInfo = new List<AttachedProxyInfo>();
 
         /// <summary>
         /// 注册一个动态实现类的信息。
@@ -29,9 +29,9 @@ namespace Reface.AppStarter.AppContainerBuilders
         /// 追加一个代理
         /// </summary>
         /// <param name="info"></param>
-        public void AppendProxy(CustomProxyInfo info)
+        public void AppendProxy(AttachedProxyInfo info)
         {
-            this.customProxyInfos.Add(info);
+            this.attachedProxyInfo.Add(info);
         }
 
         public override void Prepare(AppSetup setup)
@@ -65,7 +65,7 @@ namespace Reface.AppStarter.AppContainerBuilders
         public override IAppContainer Build(AppSetup setup)
         {
             ProxyAppContainerOptions options = new ProxyAppContainerOptions();
-            options.CustomProxyInfos = this.customProxyInfos;
+            options.AttachedProxyInfo = this.attachedProxyInfo;
             return new ProxyAppContainer(options);
         }
     }

@@ -92,10 +92,16 @@
   <ItemGroup>
     <Compile Include="AppContainerBuilders\ProxyAppContainerBuilder.cs" />
     <Compile Include="AppContainers\ProxyAppContainerOptions.cs" />
-    <Compile Include="Attributes\CustomProxyAttribute.cs" />
-    <Compile Include="CustomProxyRuntimeInfo.cs" />
-    <Compile Include="ICustomProxyAttachmentCondition.cs" />
-    <Compile Include="CustomProxyInfo.cs" />
+    <Compile Include="Attachments\CanCastAsAttribute.cs" />
+    <Compile Include="Attachments\GroupAttachmentAttribute.cs" />
+    <Compile Include="Attachments\MethodHasAttributeAttribute.cs" />
+    <Compile Include="Attachments\TypeHasAttributeAttribute.cs" />
+    <Compile Include="Attachments\HasMethodAttribute.cs" />
+    <Compile Include="Attributes\AttachmentAttribute.cs" />
+    <Compile Include="Attributes\AttachedProxyAttribute.cs" />
+    <Compile Include="AttachedProxyRuntimeInfo.cs" />
+    <Compile Include="IAttachment.cs" />
+    <Compile Include="AttachedProxyInfo.cs" />
     <Compile Include="Attributes\ImplementorAttribute.cs" />
     <Compile Include="AppContainers\IProxyAppContainer.cs" />
     <Compile Include="AppContainers\ProxyAppContainer.cs" />

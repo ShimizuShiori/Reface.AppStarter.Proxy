@@ -1,17 +1,16 @@
 ﻿using Reface.AppStarter.Attributes;
 using Reface.AppStarter.Proxy.Attachments;
-using Reface.AppStarter.Proxy.Tests.Services;
-using System.Diagnostics;
+using Reface.AppStarter.Proxy.Tests.Attributes;
 
 namespace Reface.AppStarter.Proxy.Tests.Proxies
 {
     [AttachedProxy]
-    [CanCastAs(typeof(IFileService))]
-    public class SetHelloToContext : IProxy
+    [TypeHasAttribute(typeof(OnClass))]
+    public class ProxyForOnClass : IProxy
     {
         private readonly App app;
 
-        public SetHelloToContext(App app)
+        public ProxyForOnClass(App app)
         {
             this.app = app;
         }
