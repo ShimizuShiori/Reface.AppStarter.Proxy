@@ -1,7 +1,9 @@
 ﻿using Castle.Core.Interceptor;
 using System;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Reface.AppStarter.Proxy
 {
@@ -101,6 +103,19 @@ namespace Reface.AppStarter.Proxy
             if (asReturnValue)
                 this.Return(result);
             return result;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append("Executing : ");
+            builder.Append(this.Method.DeclaringType.Name);
+            builder.Append(".");
+            builder.Append(this.Method.Name);
+            builder.Append("(");
+            builder.Append(this.Arguments.Select(x => x == null ? "null" : x.ToString()).Join(","));
+            builder.Append(")");
+            return builder.ToString();
         }
     }
 }

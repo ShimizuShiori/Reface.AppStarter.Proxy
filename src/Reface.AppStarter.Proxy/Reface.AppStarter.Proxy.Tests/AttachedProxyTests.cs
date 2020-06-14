@@ -60,5 +60,13 @@ namespace Reface.AppStarter.Proxy.Tests
             this.T3.Plus(1, 1);
             Assert.AreEqual(typeof(ProxyMatchMethod).FullName, this.App.GetTestText());
         }
+
+        [TestMethod]
+        public void TestProxyOnServiceAttribute()
+        {
+            var service1 = this.ComponentContainer.CreateComponent<IService1>();
+            var service2 = this.ComponentContainer.CreateComponent<IService2>();
+            Assert.AreEqual(service1.GetType(), service2.GetService1Type());
+        }
     }
 }

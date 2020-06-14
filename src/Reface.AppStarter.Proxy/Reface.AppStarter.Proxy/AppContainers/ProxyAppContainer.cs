@@ -97,19 +97,6 @@ namespace Reface.AppStarter.AppContainers
         {
             ProxyInfo info = cacheForTypeHasProxy.GetOrAdd(e.CreatedObject.GetType(), type =>
             {
-
-                // 动态实现的接口，是无法将 AOP 特征挂载在 class 上的。
-
-                // 相反，手动实现的接口，是不会将 AOP 特征挂载在 interface 上的。
-
-                // 因此，在此处判断一个对象是否需要进行 AOP 操作时，就要分清上两种情况，才能做出正确的反射。
-
-                // 当创建的对象是动态实现的时候，将对 Interface 判断是否存在 AOP 特征；
-
-                // 当创建的对象不是动态实现的时候，将对该对象本身判断是否存在 AOP 特征。
-
-                // 当上面的判断均认定没有代理时，还需要从 customProxyInfos 判断是否有添加的自定义代理
-
                 bool isDynamicImplemented = e.CreatedObject.IsDynamicImplemented();
 
                 if (isDynamicImplemented)

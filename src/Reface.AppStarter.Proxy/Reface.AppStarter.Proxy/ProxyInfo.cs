@@ -30,5 +30,10 @@ namespace Reface.AppStarter.Proxy
             HasProxy = hasProxy;
             IsDynamicImplemented = isDynamicImplemented;
         }
+
+        public override string ToString()
+        {
+            return $"Type={Type}, HasProxy={HasProxy}";
+        }
     }
 }

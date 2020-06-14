@@ -29,6 +29,10 @@ namespace Reface.AppStarter.Proxy
             {
                 methodInfo = invocation.Method.GetBaseDefinition();
             }
+
+            //var proxies = this.proxyOnTypeInfo.ProxiesOnMethod[methodInfo.ToString()];
+            //proxies = proxies.Concat(this.proxyOnTypeInfo.ProxiesOnClass);
+
             var proxies = this.proxyOnTypeInfo.ProxiesOnClass;
             proxies = proxies.Concat(this.proxyOnTypeInfo.ProxiesOnMethod[methodInfo.ToString()]);
 
