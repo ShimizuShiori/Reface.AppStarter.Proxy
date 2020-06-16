@@ -6,7 +6,7 @@ Reface.AppStarter 的功能模块，使用此模块，可以轻松的建立 AOP 
 
 ## 1.1 依赖
 
-* *Reface.AppStarter* >= 1.1.0
+* *Reface.AppStarter* >= 2.1.10
 * *Caslte.DynamicProxy* >= 2.2.0
 
 ## 1.2 Nuget 页面
@@ -18,6 +18,7 @@ https://www.nuget.org/packages/Reface.AppStarter.Proxy
 * 作为 *Reface.AppStarter* 的一个子模块
 * 通过 *Attribute* 创建 **AOP** 切面
 * 通过 *Attribute* 创建接口的动态实现
+* 以非侵入式的代码向已有的类型附加代理
 
 ## 2 使用方法
 

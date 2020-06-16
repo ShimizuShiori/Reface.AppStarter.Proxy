@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Reface.AppStarter.Proxy</id>
-    <version>1.5.0-alpha.1</version>
+    <version>1.5.0</version>
     <title>Reface.AppStarter.Proxy</title>
     <authors>Felix</authors>
     <owners>Felix</owners>
@@ -13,8 +13,8 @@
     <copyright>Copyright © 2002 Felix. All rights reserved.</copyright>
     <tags>AOP Dynamic</tags>
     <dependencies>
-      <dependency id="Reface.AppStarter" version="2.1.7" />
-      <dependency id="Castle.DynamicProxy" version="2.2.0" />
+      <dependency id="Reface.AppStarter" version="[2.1.10,2.2.0)" />
+      <dependency id="Castle.DynamicProxy" version="[2.2.0]" />
     </dependencies>
   </metadata>
   <files>

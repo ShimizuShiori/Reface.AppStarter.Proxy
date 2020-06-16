@@ -1,11 +1,17 @@
 # 向 *class* 添加 **AOP**
 
+向类型添加 AOP 有两种方式
+* 通过 Attribute 添加到类型或者方法上
+* 通过非侵入式添加 ( Reface.AppStarter.Proxy >= 1.5.0 )
+
 ## 1 注意事项
 
-**首先**，该 *class* 必须是通过 *Autofac* 的容器创建出来的，
+无论通过哪种方式添加的 **AOP**，该实例都必须是通过 *Reface.AppStarter* 的 **IOC/DI** 容器创建出来的，
 直接通过 *new* 得到的实例，是无法通过此功能创建 **AOP** 的。
 
-## 2 创建切面类
+## 2 通过 Attribute 添加 AOP
+
+### 2.1 创建切面类
 
 开发者需要根据自己的需求创建切面类
 
@@ -34,11 +40,10 @@ public class LoggerAttribute : ProxyAttribute
     * 将切面定义在 *Method* 上时，表示当执行这个 *Method* 时触发 **AOP**
     * 将切面定义在 *Class* 上时，表示当执行这个 *class* 中所有 *Method* 时都触发 **AOP**
     * 将切面定义在 *Interface* 上时，表示当执行由这个 *interface* 产生的动态实现时，每个 *Method* 都触发 **AOP**
-4. 因为这是一个 *Attribute*，建议类名以 *Attribute* 结尾
 
-### 三个切点
+#### 三个切点
 
-#### OnExecuting
+##### OnExecuting
 
 这是切面的第一个切点，
 此时，还没执行原本的 *method*，
@@ -56,7 +61,7 @@ public class LoggerAttribute : ProxyAttribute
 * **ReplaceArguments(values)** , 使用一个数组替换所有参数
 * **Return(value)** , 返回一个值，执行此方法会跳过原本 *method* 的执行
 
-#### OnExecuted
+##### OnExecuted
 
 这是执行后的切点，
 无论 *method* 的过程是由原本的 *method* 完成的，或是由 *OnExecuting* 完成的，
@@ -76,7 +81,7 @@ public class LoggerAttribute : ProxyAttribute
 * **Source** , 结果的来源
 * **ReplaceReturnValue(object)** , 替换已产生的结果
 
-#### OnExecuteError
+##### OnExecuteError
 
 这是执行抛出异常后的切点
 在该阶段，主要的功能是
@@ -90,7 +95,7 @@ public class LoggerAttribute : ProxyAttribute
 * **Error** , 抛出的异常
 * **Handle()** , 表示异常已被处理，不再继续向外抛出
 
-## 3 应用切面类
+### 3 应用切面类
 
 假定接口和实现类
 
