@@ -1,10 +1,13 @@
-﻿using Reface.AppStarter.AppModules;
+﻿using LibA;
+using Reface.AppStarter.AppModules;
 
 namespace Reface.AppStarter.Proxy.Tests
 {
     [ComponentScanAppModule]
-    [ProxyAppModule]
-    [LibA.LibAAppModule]
+    [DynamicImplementationAppModule]
+    [ProxyScanAppModule]
+    [ImplementorScanAppModule]
+    [LibAAppModule]
     public class TestAppModule : AppModule
     {
     }

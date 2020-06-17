@@ -12,7 +12,8 @@ namespace Reface.AppStarter.AppContainerBuilders
     public class ProxyAppContainerBuilder : BaseAppContainerBuilder
     {
         private readonly List<AttributeAndTypeInfo> attributeAndTypeInfos = new List<AttributeAndTypeInfo>();
-        private readonly List<AttachedProxyInfo> attachedProxyInfo = new List<AttachedProxyInfo>();
+        private readonly List<AttachedInfo> attachedProxyInfo = new List<AttachedInfo>();
+        private readonly List<AttachedInfo> attachedImplementorInfo = new List<AttachedInfo>();
 
         /// <summary>
         /// 注册一个动态实现类的信息。
@@ -20,18 +21,26 @@ namespace Reface.AppStarter.AppContainerBuilders
         /// <param name="info"></param>
         public void RegisterImplementor(AttributeAndTypeInfo info)
         {
-            if (!info.Type.IsInterface) return;
-            if (info.Attribute is ImplementorAttribute)
-                this.attributeAndTypeInfos.Add(info);
+
+            this.attributeAndTypeInfos.Add(info);
         }
 
         /// <summary>
-        /// 追加一个代理
+        /// 附加一个代理
         /// </summary>
         /// <param name="info"></param>
-        public void AppendProxy(AttachedProxyInfo info)
+        public void AttachProxy(AttachedInfo info)
         {
             this.attachedProxyInfo.Add(info);
+        }
+
+        /// <summary>
+        /// 附加一个实现器
+        /// </summary>
+        /// <param name="info"></param>
+        public void AttachImplementor(AttachedInfo info)
+        {
+            this.attachedImplementorInfo.Add(info);
         }
 
         public override void Prepare(AppSetup setup)
@@ -47,7 +56,6 @@ namespace Reface.AppStarter.AppContainerBuilders
                 = (AutofacContainerBuilder)sender;
             foreach (var info in attributeAndTypeInfos)
             {
-                if (!info.Type.IsInterface) continue;
                 autofacContainerBuilder.RegisterByCreator(c =>
                 {
                     c.InjectProperties(info.Attribute);
@@ -66,6 +74,7 @@ namespace Reface.AppStarter.AppContainerBuilders
         {
             ProxyAppContainerOptions options = new ProxyAppContainerOptions();
             options.AttachedProxyInfo = this.attachedProxyInfo;
+            options.AttachedImplementorInfo = this.attachedImplementorInfo;
             return new ProxyAppContainer(options);
         }
     }

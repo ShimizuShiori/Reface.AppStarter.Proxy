@@ -92,16 +92,20 @@
   <ItemGroup>
     <Compile Include="AppContainerBuilders\ProxyAppContainerBuilder.cs" />
     <Compile Include="AppContainers\ProxyAppContainerOptions.cs" />
+    <Compile Include="AppModules\DynamicImplementationAppModule.cs" />
+    <Compile Include="AppModules\ImplementorScanAppModule.cs" />
+    <Compile Include="AppModules\ProxyScanAppModule.cs" />
     <Compile Include="Attachments\CanCastAsAttribute.cs" />
     <Compile Include="Attachments\GroupAttachmentAttribute.cs" />
     <Compile Include="Attachments\MethodHasAttributeAttribute.cs" />
     <Compile Include="Attachments\TypeHasAttributeAttribute.cs" />
     <Compile Include="Attachments\HasMethodAttribute.cs" />
+    <Compile Include="Attributes\AttachedImplementorAttribute.cs" />
     <Compile Include="Attributes\AttachmentAttribute.cs" />
     <Compile Include="Attributes\AttachedProxyAttribute.cs" />
-    <Compile Include="AttachedProxyRuntimeInfo.cs" />
+    <Compile Include="AttachedRuntimeInfo.cs" />
     <Compile Include="IAttachment.cs" />
-    <Compile Include="AttachedProxyInfo.cs" />
+    <Compile Include="AttachedInfo.cs" />
     <Compile Include="Attributes\ImplementorAttribute.cs" />
     <Compile Include="AppContainers\IProxyAppContainer.cs" />
     <Compile Include="AppContainers\ProxyAppContainer.cs" />
@@ -111,6 +115,7 @@
     <Compile Include="ExecuteErrorInfo.cs" />
     <Compile Include="ExecutingInfo.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="IImplementor.cs" />
     <Compile Include="ImplementorAttributeExecuteInterceptor.cs" />
     <Compile Include="InterfaceInvocationInfo.cs" />
     <Compile Include="IProxy.cs" />

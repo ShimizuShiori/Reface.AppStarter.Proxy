@@ -17,24 +17,31 @@ namespace Reface.AppStarter.AppContainers
     {
         private readonly ConcurrentDictionary<Type, ProxyInfo> cacheForTypeHasProxy = new ConcurrentDictionary<Type, ProxyInfo>();
         private readonly ProxyGenerator proxyGenerator = new ProxyGenerator();
-        private readonly IEnumerable<AttachedProxyRuntimeInfo> attahcedProxyInfo;
+        private readonly IEnumerable<AttachedRuntimeInfo> attahcedProxyInfo;
+        private readonly IEnumerable<AttachedRuntimeInfo> attachedImplementorInfo;
 
         public ProxyAppContainer(ProxyAppContainerOptions options)
         {
-            var list = new List<AttachedProxyRuntimeInfo>();
-            options.AttachedProxyInfo.ForEach(info =>
+            this.attahcedProxyInfo = this.GetRuntimeInfo(options.AttachedProxyInfo);
+            this.attachedImplementorInfo = this.GetRuntimeInfo(options.AttachedImplementorInfo);
+        }
+
+        private IEnumerable<AttachedRuntimeInfo> GetRuntimeInfo(IEnumerable<AttachedInfo> attachedInfos)
+        {
+            var list = new List<AttachedRuntimeInfo>();
+            attachedInfos.ForEach(info =>
             {
                 if (!info.Attachments.Any()) return;
                 info.Attachments.ForEach(att =>
                 {
-                    list.Add(new AttachedProxyRuntimeInfo()
+                    list.Add(new AttachedRuntimeInfo()
                     {
                         Attachment = att,
-                        ProxyType = info.ProxyType
+                        AttachedType = info.AttachedType
                     });
                 });
             });
-            this.attahcedProxyInfo = list;
+            return list;
         }
 
         public void Dispose()
@@ -45,6 +52,30 @@ namespace Reface.AppStarter.AppContainers
         {
             IComponentContainer componentContainer = app.GetAppContainer<IComponentContainer>();
             componentContainer.ComponentCreating += ComponentContainer_ComponentCreating;
+        }
+
+        private void ComponentContainer_NoComponentRegisted(object sender, NoComponentRegistedEventArgs e)
+        {
+            if (!e.ServiceType.IsInterface) return;
+            IEnumerable<AttachedRuntimeInfo> matchedInfos = this.attachedImplementorInfo
+                .Where(info => info.Attachment.CanAttach(e.ServiceType));
+            int count = matchedInfos.Count();
+            if (count == 0) return;
+            if (count > 1)
+                throw new ApplicationException();
+
+            var implementorType = matchedInfos.First().AttachedType;
+
+            e.ComponentProvider = cm =>
+            {
+                var implementor = (IImplementor)cm.CreateComponent(implementorType);
+                ImplementorAttributeExecuteInterceptor interceptor = new ImplementorAttributeExecuteInterceptor(e.ServiceType, implementor);
+                var rlt = proxyGenerator.CreateInterfaceProxyWithoutTarget(
+                    e.ServiceType,
+                    interceptor
+                );
+                return rlt;
+            };
         }
 
         private void ComponentContainer_ComponentCreating(object sender, ComponentCreatingEventArgs e)
@@ -65,7 +96,7 @@ namespace Reface.AppStarter.AppContainers
 
             // 从所有的自定义代理中查找针对当前类型的代理
             var customProxies = this.attahcedProxyInfo.Where(x => x.Attachment.CanAttach(info.Type))
-                .Select(x => e.ComponentManager.CreateComponent(x.ProxyType))
+                .Select(x => e.ComponentManager.CreateComponent(x.AttachedType))
                 .OfType<IProxy>()
                 .ToList();
 
@@ -111,6 +142,8 @@ namespace Reface.AppStarter.AppContainers
 
         public void OnAppStarted(App app)
         {
+            IComponentContainer componentContainer = app.GetAppContainer<IComponentContainer>();
+            componentContainer.NoComponentRegisted += ComponentContainer_NoComponentRegisted;
         }
 
         private Predicate GetPredicateOfProxyOnType(Type type)

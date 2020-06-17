@@ -100,12 +100,14 @@
     <Compile Include="AppModules\ABAppModule.cs" />
     <Compile Include="AppModules\JustAAppModule.cs" />
     <Compile Include="AppModules\JustBAppModule.cs" />
+    <Compile Include="AttachedImplementorTests.cs" />
     <Compile Include="Attributes\AutoDaoAttribute.cs" />
     <Compile Include="Attributes\GenerateIdAttribute.cs" />
     <Compile Include="Attributes\LoggerAttribute.cs" />
     <Compile Include="Attributes\OnClass.cs" />
     <Compile Include="Attributes\OnMethod.cs" />
     <Compile Include="Attributes\Service.cs" />
+    <Compile Include="Attributes\ShowMethodName.cs" />
     <Compile Include="Attributes\SubThreadAttribute.cs" />
     <Compile Include="Constant.cs" />
     <Compile Include="CustomProxyAppModule.cs" />
@@ -115,6 +117,7 @@
     <Compile Include="Ext.cs" />
     <Compile Include="ExtendInterfaceTests.cs" />
     <Compile Include="GetAttrsTests.cs" />
+    <Compile Include="Implementors\SetMethodNameToAppContext.cs" />
     <Compile Include="InvokeOriginalMethodTests.cs" />
     <Compile Include="JustATests.cs" />
     <Compile Include="JustBTests.cs" />

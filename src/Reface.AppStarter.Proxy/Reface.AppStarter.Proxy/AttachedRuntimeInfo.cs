@@ -2,7 +2,7 @@
 
 namespace Reface.AppStarter.Proxy
 {
-    public class AttachedProxyRuntimeInfo
+    public class AttachedRuntimeInfo
     {
         /// <summary>
         /// 附加代理的条件
@@ -12,6 +12,6 @@ namespace Reface.AppStarter.Proxy
         /// <summary>
         /// 代理的类型
         /// </summary>
-        public Type ProxyType { get; set; }
+        public Type AttachedType { get; set; }
     }
 }

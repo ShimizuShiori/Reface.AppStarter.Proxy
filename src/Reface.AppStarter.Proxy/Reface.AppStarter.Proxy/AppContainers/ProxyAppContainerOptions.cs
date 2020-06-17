@@ -5,6 +5,7 @@ namespace Reface.AppStarter.AppContainers
 {
     public class ProxyAppContainerOptions
     {
-        public IEnumerable<AttachedProxyInfo> AttachedProxyInfo { get; set; }
+        public IEnumerable<AttachedInfo> AttachedProxyInfo { get; set; }
+        public IEnumerable<AttachedInfo> AttachedImplementorInfo { get; set; }
     }
 }

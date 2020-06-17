@@ -2,7 +2,7 @@
 
 namespace Reface.AppStarter.Proxy.Tests.Modules.B
 {
-    [ProxyAppModule
+    [DynamicImplementationAppModule
         (
             IncludeNamespaces = new string[]
             {

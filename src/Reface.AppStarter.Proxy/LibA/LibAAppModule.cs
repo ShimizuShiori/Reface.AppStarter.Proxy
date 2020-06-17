@@ -2,7 +2,7 @@
 
 namespace LibA
 {
-    [ProxyAppModule]
+    [DynamicImplementationAppModule]
     public class LibAAppModule : AppModule
     {
     }

@@ -4,19 +4,12 @@ namespace Reface.AppStarter.Proxy.Tests.Modules.A
 {
     [ComponentScanAppModule
         (
-            IncludeNamespaces = new string[] 
-            {
-                "Reface.AppStarter.Proxy.Tests.Modules.A"
-            }
-        )]
-    [ProxyAppModule
-        (
             IncludeNamespaces = new string[]
             {
                 "Reface.AppStarter.Proxy.Tests.Modules.A"
             }
         )]
-
+    [ProxyAppModule]
     public class AAppModule : AppModule
     {
     }

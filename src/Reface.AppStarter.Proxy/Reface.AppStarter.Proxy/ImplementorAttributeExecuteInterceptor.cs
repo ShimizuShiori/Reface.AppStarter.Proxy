@@ -1,5 +1,4 @@
 ﻿using Castle.Core.Interceptor;
-using Reface.AppStarter.Attributes;
 using System;
 
 namespace Reface.AppStarter.Proxy
@@ -7,9 +6,9 @@ namespace Reface.AppStarter.Proxy
     class ImplementorAttributeExecuteInterceptor : IInterceptor
     {
         public Type InterfaceType { get; private set; }
-        public ImplementorAttribute Implementor { get; private set; }
+        public IImplementor Implementor { get; private set; }
 
-        public ImplementorAttributeExecuteInterceptor(Type interfaceType, ImplementorAttribute implementor)
+        public ImplementorAttributeExecuteInterceptor(Type interfaceType, IImplementor implementor)
         {
             this.InterfaceType = interfaceType;
             this.Implementor = implementor;
