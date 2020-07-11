@@ -12,6 +12,7 @@ namespace Reface.AppStarter.Proxy
     /// </summary>
     public class ExecutingInfo
     {
+        public object InvokingTarget { get; private set; }
         /// <summary>
         /// 方法信息
         /// </summary>
@@ -39,14 +40,13 @@ namespace Reface.AppStarter.Proxy
 
         private readonly IInvocation invocation;
 
-        public ExecutingInfo(MethodInfo method, object[] arguments, IInvocation invocation)
+        public ExecutingInfo(object invokingTarget, MethodInfo method, object[] arguments, IInvocation invocation)
         {
+            this.InvokingTarget = invokingTarget;
             Method = method;
             Arguments = arguments;
             this.invocation = invocation;
         }
-
-
 
         /// <summary>
         /// 替换参数

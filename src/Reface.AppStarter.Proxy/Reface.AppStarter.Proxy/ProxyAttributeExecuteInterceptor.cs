@@ -24,6 +24,8 @@ namespace Reface.AppStarter.Proxy
             MethodInfo methodInfo;
             ReturnedValueSources source = ReturnedValueSources.OriginalMethod;
 
+            object invokingTarget = invocation.InvocationTarget;
+
             methodInfo = invocation.MethodInvocationTarget?.GetBaseDefinition();
             if (methodInfo == null)
             {
@@ -36,7 +38,7 @@ namespace Reface.AppStarter.Proxy
             var proxies = this.proxyOnTypeInfo.ProxiesOnClass;
             proxies = proxies.Concat(this.proxyOnTypeInfo.ProxiesOnMethod[methodInfo.ToString()]);
 
-            ExecutingInfo executingInfo = new ExecutingInfo(methodInfo, invocation.Arguments, invocation);
+            ExecutingInfo executingInfo = new ExecutingInfo(invokingTarget, methodInfo, invocation.Arguments, invocation);
 
             foreach (IProxy proxy in proxies)
                 proxy.OnExecuting(executingInfo);
@@ -54,7 +56,7 @@ namespace Reface.AppStarter.Proxy
                 }
                 catch (Exception ex)
                 {
-                    ExecuteErrorInfo executeErrorInfo = new ExecuteErrorInfo(methodInfo, invocation.Arguments, ex);
+                    ExecuteErrorInfo executeErrorInfo = new ExecuteErrorInfo(invokingTarget, methodInfo, invocation.Arguments, ex);
                     foreach (IProxy proxy in proxies)
                         proxy.OnExecuteError(executeErrorInfo);
 
@@ -64,7 +66,7 @@ namespace Reface.AppStarter.Proxy
                 }
             }
 
-            ExecutedInfo executedInfo = new ExecutedInfo(methodInfo, invocation.Arguments, invocation.ReturnValue, source);
+            ExecutedInfo executedInfo = new ExecutedInfo(invokingTarget, methodInfo, invocation.Arguments, invocation.ReturnValue, source);
             foreach (IProxy proxy in proxies)
                 proxy.OnExecuted(executedInfo);
         }

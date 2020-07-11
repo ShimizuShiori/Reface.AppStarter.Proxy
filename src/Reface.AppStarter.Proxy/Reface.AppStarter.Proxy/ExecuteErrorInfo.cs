@@ -5,6 +5,7 @@ namespace Reface.AppStarter.Proxy
 {
     public class ExecuteErrorInfo
     {
+        public object InvokingTarget { get; private set; }
         public MethodInfo Method { get; private set; }
         public object[] Arguments { get; private set; }
         
@@ -18,8 +19,9 @@ namespace Reface.AppStarter.Proxy
         /// </summary>
         public bool PreventThrow { get; private set; }
 
-        public ExecuteErrorInfo(MethodInfo method, object[] arguments, Exception error)
+        public ExecuteErrorInfo(object invokingTarget, MethodInfo method, object[] arguments, Exception error)
         {
+            InvokingTarget = invokingTarget;
             Method = method;
             Arguments = arguments;
             Error = error;

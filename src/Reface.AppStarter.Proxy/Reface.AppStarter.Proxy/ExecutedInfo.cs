@@ -5,6 +5,7 @@ namespace Reface.AppStarter.Proxy
 {
     public class ExecutedInfo
     {
+        public object InvokingTarget { get; private set; }
         public MethodInfo Method { get; private set; }
         public object[] Arguments { get; private set; }
 
@@ -18,8 +19,9 @@ namespace Reface.AppStarter.Proxy
         /// </summary>
         public ReturnedValueSources Source { get; private set; }
 
-        public ExecutedInfo(MethodInfo method, object[] arguments, object returnedValue, ReturnedValueSources source)
+        public ExecutedInfo(object invokingTarget, MethodInfo method, object[] arguments, object returnedValue, ReturnedValueSources source)
         {
+            InvokingTarget = invokingTarget;
             Method = method;
             Arguments = arguments;
             ReturnedValue = returnedValue;

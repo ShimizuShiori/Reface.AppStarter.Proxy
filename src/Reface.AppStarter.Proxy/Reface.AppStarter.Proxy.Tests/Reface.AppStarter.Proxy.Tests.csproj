@@ -101,6 +101,8 @@
     <Compile Include="AppModules\JustAAppModule.cs" />
     <Compile Include="AppModules\JustBAppModule.cs" />
     <Compile Include="AttachedImplementorTests.cs" />
+    <Compile Include="Attachments\IsRepo.cs" />
+    <Compile Include="AttachProxyOnGenercClassTests.cs" />
     <Compile Include="Attributes\AutoDaoAttribute.cs" />
     <Compile Include="Attributes\GenerateIdAttribute.cs" />
     <Compile Include="Attributes\LoggerAttribute.cs" />
@@ -114,6 +116,7 @@
     <Compile Include="AttachedProxyTests.cs" />
     <Compile Include="Dao\IUserDao.cs" />
     <Compile Include="Events\SendMessageEvent.cs" />
+    <Compile Include="Events\TestEvent.cs" />
     <Compile Include="Ext.cs" />
     <Compile Include="ExtendInterfaceTests.cs" />
     <Compile Include="GetAttrsTests.cs" />
@@ -140,6 +143,9 @@
     <Compile Include="Proxies\ProxyMatchMethod.cs" />
     <Compile Include="Proxies\SetHelloToContext.cs" />
     <Compile Include="Proxies\SetHelloToContextAttachment.cs" />
+    <Compile Include="Proxies\ShowRepoInfo.cs" />
+    <Compile Include="Repos\IRepo.cs" />
+    <Compile Include="Repos\Repo.cs" />
     <Compile Include="Services\DefaultOrderService.cs" />
     <Compile Include="Services\DefaultUserService.cs" />
     <Compile Include="Services\IFileService.cs" />
