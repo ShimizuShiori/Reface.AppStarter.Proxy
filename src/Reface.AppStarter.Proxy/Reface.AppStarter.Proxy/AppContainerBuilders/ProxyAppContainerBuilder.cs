@@ -12,7 +12,7 @@ namespace Reface.AppStarter.AppContainerBuilders
     public class ProxyAppContainerBuilder : BaseAppContainerBuilder
     {
         private readonly List<AttributeAndTypeInfo> attributeAndTypeInfos = new List<AttributeAndTypeInfo>();
-        private readonly List<AttachedInfo> attachedProxyInfo = new List<AttachedInfo>();
+        private readonly List<ProxyAttachedInfo> attachedProxyInfo = new List<ProxyAttachedInfo>();
         private readonly List<AttachedInfo> attachedImplementorInfo = new List<AttachedInfo>();
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Reface.AppStarter.AppContainerBuilders
         /// 附加一个代理
         /// </summary>
         /// <param name="info"></param>
-        public void AttachProxy(AttachedInfo info)
+        public void AttachProxy(ProxyAttachedInfo info)
         {
             this.attachedProxyInfo.Add(info);
         }

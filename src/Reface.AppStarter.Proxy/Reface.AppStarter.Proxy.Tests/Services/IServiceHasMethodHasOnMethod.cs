@@ -3,5 +3,7 @@
     public interface IServiceHasMethodHasOnMethod
     {
         void Do();
+
+        void DoWithoutAttriute();
     }
 }

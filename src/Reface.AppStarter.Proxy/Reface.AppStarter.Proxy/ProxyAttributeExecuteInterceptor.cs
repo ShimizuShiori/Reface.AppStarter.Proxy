@@ -1,6 +1,7 @@
 ﻿using Castle.Core.Interceptor;
 using Reface.AppStarter.Attributes;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -28,15 +29,11 @@ namespace Reface.AppStarter.Proxy
 
             methodInfo = invocation.MethodInvocationTarget?.GetBaseDefinition();
             if (methodInfo == null)
-            {
                 methodInfo = invocation.Method.GetBaseDefinition();
-            }
-
-            //var proxies = this.proxyOnTypeInfo.ProxiesOnMethod[methodInfo.ToString()];
-            //proxies = proxies.Concat(this.proxyOnTypeInfo.ProxiesOnClass);
 
             var proxies = this.proxyOnTypeInfo.ProxiesOnClass;
-            proxies = proxies.Concat(this.proxyOnTypeInfo.ProxiesOnMethod[methodInfo.ToString()]);
+            IEnumerable<IProxy> proxiesOnMethod = this.proxyOnTypeInfo.GetProxiesOnMethod(methodInfo);
+            proxies = proxies.Concat(proxiesOnMethod).ToList();
 
             ExecutingInfo executingInfo = new ExecutingInfo(invokingTarget, methodInfo, invocation.Arguments, invocation);
 

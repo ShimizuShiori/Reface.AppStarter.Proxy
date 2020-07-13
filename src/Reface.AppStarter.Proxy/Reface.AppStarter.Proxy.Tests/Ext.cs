@@ -9,7 +9,7 @@
 
         public static string GetTestText(this App app)
         {
-            return (string)app.Context[Constant.APP_CONTEXT_TEST_TEXT];
+            return (string)app.Context.GetOrCreate<string>(Constant.APP_CONTEXT_TEST_TEXT, key => "");
         }
     }
 }

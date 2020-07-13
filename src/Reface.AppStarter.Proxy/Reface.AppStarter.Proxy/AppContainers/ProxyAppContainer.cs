@@ -5,6 +5,7 @@ using Reface.AppStarter.Proxy;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
@@ -18,12 +19,34 @@ namespace Reface.AppStarter.AppContainers
         private readonly ConcurrentDictionary<Type, ProxyInfo> cacheForTypeHasProxy = new ConcurrentDictionary<Type, ProxyInfo>();
         private readonly ProxyGenerator proxyGenerator = new ProxyGenerator();
         private readonly IEnumerable<AttachedRuntimeInfo> attahcedProxyInfo;
+        private readonly IEnumerable<AttachedMethodProxyRuntimeInfo> attachedMethodProxyInfo;
         private readonly IEnumerable<AttachedRuntimeInfo> attachedImplementorInfo;
 
         public ProxyAppContainer(ProxyAppContainerOptions options)
         {
             this.attahcedProxyInfo = this.GetRuntimeInfo(options.AttachedProxyInfo);
             this.attachedImplementorInfo = this.GetRuntimeInfo(options.AttachedImplementorInfo);
+            this.attachedMethodProxyInfo = this.GetAttahcedMethodRuntimeInfo(options.AttachedProxyInfo);
+        }
+
+        private IEnumerable<AttachedMethodProxyRuntimeInfo> GetAttahcedMethodRuntimeInfo(IEnumerable<ProxyAttachedInfo> infos)
+        {
+            var list = new List<AttachedMethodProxyRuntimeInfo>();
+            infos.ForEach(info =>
+            {
+                if (!info.MethodAttachments.Any())
+                    return;
+
+                info.MethodAttachments.ForEach(attachment =>
+                {
+                    list.Add(new AttachedMethodProxyRuntimeInfo()
+                    {
+                        AttachedType = info.AttachedType,
+                        MethodAttachment = attachment
+                    });
+                });
+            });
+            return list;
         }
 
         private IEnumerable<AttachedRuntimeInfo> GetRuntimeInfo(IEnumerable<AttachedInfo> attachedInfos)
@@ -56,6 +79,7 @@ namespace Reface.AppStarter.AppContainers
 
         private void ComponentContainer_NoComponentRegisted(object sender, NoComponentRegistedEventArgs e)
         {
+            Debug.WriteLine("ComponentNotFound : {0}", e.ServiceType);
             if (!e.ServiceType.IsInterface) return;
             IEnumerable<AttachedRuntimeInfo> matchedInfos = this.attachedImplementorInfo
                 .Where(info => info.Attachment.CanAttach(e.ServiceType));
@@ -83,27 +107,46 @@ namespace Reface.AppStarter.AppContainers
             if (!e.RequiredType.IsInterface)
                 return;
 
-            ProxyInfo info = GetProxyInfo(e);
-            if (!info.HasProxy) return;
+            Type type = e.CreatedObject.GetType();
+            bool isDynamicImplemented = e.CreatedObject.IsDynamicImplemented();
+            if (isDynamicImplemented)
+                type = e.RequiredType;
 
             // 对特征的属性进行注入
             ProxyOnTypeInfo proxyOnTypeInfo;
 
-            if (info.IsDynamicImplemented)
-                proxyOnTypeInfo = ProxyOnTypeInfo.CreateByInterface(info.Type);
+            if (isDynamicImplemented)
+                proxyOnTypeInfo = ProxyOnTypeInfo.CreateByInterface(type);
             else
-                proxyOnTypeInfo = ProxyOnTypeInfo.CreateByNormalType(info.Type);
+                proxyOnTypeInfo = ProxyOnTypeInfo.CreateByNormalType(type);
 
             // 从所有的自定义代理中查找针对当前类型的代理
-            var customProxies = this.attahcedProxyInfo.Where(x => x.Attachment.CanAttach(info.Type))
+            this.attahcedProxyInfo.Where(x => x.Attachment.CanAttach(type))
                 .Select(x => e.ComponentManager.CreateComponent(x.AttachedType))
                 .OfType<IProxy>()
-                .ToList();
+                .ForEach(proxy => proxyOnTypeInfo.AddProxyOnClass(proxy));
 
-            // 若存在自定义代理，则将已有的类型代理自定义代理合并
-            if (customProxies.Any())
-                proxyOnTypeInfo.ProxiesOnClass = proxyOnTypeInfo.ProxiesOnClass.Concat(customProxies);
+            proxyOnTypeInfo.AllMethods
+                .ForEach(method =>
+                {
+                    this.attachedMethodProxyInfo.ForEach(attachment =>
+                    {
+                        if (!attachment.MethodAttachment.CanAttachOnMethod(method))
+                            return;
 
+                        IProxy proxy = (IProxy)e.ComponentManager.CreateComponent(attachment.AttachedType);
+                        proxyOnTypeInfo.AddProxyOnMethod(proxy, method);
+                    });
+                });
+
+            Debug.WriteLine("all proxy found : {1}\n\ton class : {0}", proxyOnTypeInfo.ProxiesOnClass.Count, proxyOnTypeInfo.Type);
+            proxyOnTypeInfo.AllMethods.ForEach(method =>
+            {
+                Debug.WriteLine("\ton [{1}] : {0}", proxyOnTypeInfo.GetProxiesOnMethod(method).Count(), method.ToString());
+            });
+
+            if (proxyOnTypeInfo.ProxiesOnClass.Count == 0 && proxyOnTypeInfo.ProxiesOnMethod.Count == 0)
+                return;
 
             foreach (var attr in proxyOnTypeInfo.ProxiesOnClass)
                 e.ComponentManager.InjectProperties(attr);
@@ -116,6 +159,7 @@ namespace Reface.AppStarter.AppContainers
                 e.CreatedObject,
                 proxyAttributeExecuteInterceptor
             );
+            Debug.WriteLine("replace \n\t{0} \n\tto {1} \n\tas {2} ", e.CreatedObject.GetType(), newInstance, e.RequiredType);
             e.Replace(newInstance);
         }
 

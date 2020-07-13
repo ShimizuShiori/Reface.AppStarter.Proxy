@@ -8,5 +8,9 @@ namespace Reface.AppStarter.Proxy.Tests.Services
     {
         [OnMethod]
         public void Do() { }
+
+        public void DoWithoutAttriute()
+        {
+        }
     }
 }

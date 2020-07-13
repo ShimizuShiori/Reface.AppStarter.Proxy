@@ -1,5 +1,5 @@
-﻿using Reface.AppStarter.Attributes;
-using System;
+﻿using System;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace Reface.AppStarter.Proxy.Attachments
@@ -8,22 +8,12 @@ namespace Reface.AppStarter.Proxy.Attachments
     /// 当一个类型中具体某个方法时，添加一个代理类。
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    public class HasMethodAttribute : AttachmentAttribute
+    public class MethodAttachmentAttribute : Attribute, IMethodAttachment
     {
         public string MethodName { get; set; } = "";
         public Type ReturnType { get; set; } = null;
         public Type[] ParameterTypes { get; set; } = null;
-
-
-        public override bool CanAttach(Type type)
-        {
-            foreach (var method in type.GetMethods())
-            {
-                if (CheckName(method) && CheckReturnType(method) && CheckParameters(method))
-                    return true;
-            }
-            return false;
-        }
+        public Type[] AttributeTypes { get; set; } = null;
 
         private bool CheckName(MethodInfo method)
         {
@@ -49,6 +39,24 @@ namespace Reface.AppStarter.Proxy.Attachments
                     return false;
             }
             return true;
+        }
+
+        private bool CheckAttibutes(MethodInfo method)
+        {
+            if (this.AttributeTypes == null) return true;
+            foreach (var type in this.AttributeTypes)
+            {
+                if (method.GetCustomAttribute(type) == null)
+                    return false;
+            }
+            return true;
+        }
+
+        public bool CanAttachOnMethod(MethodInfo method)
+        {
+            var result = CheckName(method) && CheckReturnType(method) && CheckParameters(method) && CheckAttibutes(method);
+            Debug.WriteLine("{1}.{0} Need To Attach [{3}]: {2}", method.ToString(), method.DeclaringType.Name, result, this.GetType().Name);
+            return result;
         }
     }
 }

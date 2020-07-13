@@ -65,7 +65,7 @@
       <HintPath>..\packages\NLog.1.0.0.505\lib\NLog.dll</HintPath>
     </Reference>
     <Reference Include="Reface.AppStarter, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Reface.AppStarter.2.1.11\lib\net461\Reface.AppStarter.dll</HintPath>
+      <HintPath>..\packages\Reface.AppStarter.2.1.23\lib\net461\Reface.AppStarter.dll</HintPath>
     </Reference>
     <Reference Include="Reface.CommandBus, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Reface.CommandBus.2.0.1\lib\net461\Reface.CommandBus.dll</HintPath>
@@ -95,15 +95,16 @@
     <Compile Include="AppModules\DynamicImplementationAppModule.cs" />
     <Compile Include="AppModules\ImplementorScanAppModule.cs" />
     <Compile Include="AppModules\ProxyScanAppModule.cs" />
+    <Compile Include="AttachedMethodProxyRuntimeInfo.cs" />
     <Compile Include="Attachments\CanCastAsAttribute.cs" />
     <Compile Include="Attachments\GroupAttachmentAttribute.cs" />
-    <Compile Include="Attachments\MethodHasAttributeAttribute.cs" />
     <Compile Include="Attachments\TypeHasAttributeAttribute.cs" />
-    <Compile Include="Attachments\HasMethodAttribute.cs" />
+    <Compile Include="Attachments\MethodAttachmentAttribute.cs" />
     <Compile Include="Attributes\AttachedImplementorAttribute.cs" />
     <Compile Include="Attributes\AttachmentAttribute.cs" />
     <Compile Include="Attributes\AttachedProxyAttribute.cs" />
     <Compile Include="AttachedRuntimeInfo.cs" />
+    <Compile Include="Attributes\MethodAttachmentAttribute.cs" />
     <Compile Include="IAttachment.cs" />
     <Compile Include="AttachedInfo.cs" />
     <Compile Include="Attributes\ImplementorAttribute.cs" />
@@ -116,10 +117,12 @@
     <Compile Include="ExecutingInfo.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="IImplementor.cs" />
+    <Compile Include="IMethodAttachment.cs" />
     <Compile Include="ImplementorAttributeExecuteInterceptor.cs" />
     <Compile Include="InterfaceInvocationInfo.cs" />
     <Compile Include="IProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProxyAttachedInfo.cs" />
     <Compile Include="ProxyAttributeExecuteInterceptor.cs" />
     <Compile Include="ProxyInfo.cs" />
     <Compile Include="ProxyOnTypeInfo.cs" />

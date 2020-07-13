@@ -25,14 +25,21 @@ namespace Reface.AppStarter.AppModules
                 if (!(x.Attribute is AttachedProxyAttribute))
                     return;
 
-                var attachments = x.Type.GetCustomAttributes<AttachmentAttribute>();
-                if (!attachments.Any())
+                var attrs = x.Type.GetCustomAttributes();
+                if (!attrs.Any())
                     return;
 
-                builder.AttachProxy(new AttachedInfo()
+                var attachments = attrs.OfType<IAttachment>();
+                var methodAttachments = attrs.OfType<IMethodAttachment>();
+
+                if (!attachments.Any() && !methodAttachments.Any())
+                    return;
+
+                builder.AttachProxy(new ProxyAttachedInfo()
                 {
                     AttachedType = x.Type,
-                    Attachments = attachments
+                    Attachments = attachments,
+                    MethodAttachments = methodAttachments
                 });
 
             });

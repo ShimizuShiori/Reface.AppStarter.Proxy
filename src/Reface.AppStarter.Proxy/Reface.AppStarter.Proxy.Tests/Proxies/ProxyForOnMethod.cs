@@ -1,11 +1,18 @@
 ﻿using Reface.AppStarter.Attributes;
 using Reface.AppStarter.Proxy.Attachments;
 using Reface.AppStarter.Proxy.Tests.Attributes;
+using System;
 
 namespace Reface.AppStarter.Proxy.Tests.Proxies
 {
     [AttachedProxy]
-    [MethodHasAttribute(typeof(OnMethod))]
+    [MethodAttachment
+        (
+            AttributeTypes = new Type[] 
+            { 
+                typeof(OnMethod)
+            }
+        )]
     public class ProxyForOnMethod : IProxy
     {
         private readonly App app;

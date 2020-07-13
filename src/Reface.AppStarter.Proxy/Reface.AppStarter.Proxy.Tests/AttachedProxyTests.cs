@@ -4,6 +4,7 @@ using Reface.AppStarter.Proxy.Tests.Proxies;
 using Reface.AppStarter.Proxy.Tests.Services;
 using Reface.AppStarter.UnitTests;
 using System;
+using System.Diagnostics;
 
 namespace Reface.AppStarter.Proxy.Tests
 {
@@ -52,6 +53,12 @@ namespace Reface.AppStarter.Proxy.Tests
         {
             this.T2.Do();
             Assert.AreEqual(typeof(ProxyForOnMethod).FullName, this.App.GetTestText());
+        }
+        [TestMethod]
+        public void Attachment_OnMethod2()
+        {
+            this.T2.DoWithoutAttriute();
+            Assert.AreEqual("", this.App.GetTestText());
         }
 
         [TestMethod]

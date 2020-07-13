@@ -4,7 +4,7 @@ using Reface.AppStarter.Proxy.Attachments;
 namespace Reface.AppStarter.Proxy.Tests.Proxies
 {
     [AttachedProxy]
-    [HasMethod
+    [MethodAttachment
         (
             MethodName = "Plus",
             ReturnType = typeof(int)
