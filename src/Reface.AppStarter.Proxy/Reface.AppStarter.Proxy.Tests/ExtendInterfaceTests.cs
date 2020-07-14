@@ -20,15 +20,12 @@ namespace Reface.AppStarter.Proxy.Tests
         }
     }
 
-    [Print("IA")]
     public interface IInterfaceA
     {
-        [Print("MA")]
         int MethodA();
     }
 
     [ImplA]
-    [Print("IB")]
     public interface IInterfaceB : IInterfaceA
     { }
 
@@ -38,30 +35,6 @@ namespace Reface.AppStarter.Proxy.Tests
         public override void Intercept(InterfaceInvocationInfo info)
         {
             info.ReturnValue = 1;
-        }
-    }
-
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Method, AllowMultiple = true)]
-    public class Print : ProxyAttribute
-    {
-        private readonly string content;
-
-        public Print(string content)
-        {
-            this.content = content;
-        }
-
-        public override void OnExecuted(ExecutedInfo executedInfo)
-        {
-        }
-
-        public override void OnExecuteError(ExecuteErrorInfo executeErrorInfo)
-        {
-        }
-
-        public override void OnExecuting(ExecutingInfo executingInfo)
-        {
-            Console.WriteLine(this.content);
         }
     }
 }

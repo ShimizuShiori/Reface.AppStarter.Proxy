@@ -13,11 +13,11 @@ namespace Reface.AppStarter.Proxy
     /// </summary>
     class ProxyAttributeExecuteInterceptor : IInterceptor
     {
-        private readonly ProxyOnTypeInfo proxyOnTypeInfo;
+        private readonly ProxyOnTypeRuntimeInfo proxyInfo;
 
-        public ProxyAttributeExecuteInterceptor(ProxyOnTypeInfo proxyOnTypeInfo)
+        public ProxyAttributeExecuteInterceptor(ProxyOnTypeRuntimeInfo proxyInfo)
         {
-            this.proxyOnTypeInfo = proxyOnTypeInfo;
+            this.proxyInfo = proxyInfo;
         }
 
         public void Intercept(IInvocation invocation)
@@ -31,8 +31,10 @@ namespace Reface.AppStarter.Proxy
             if (methodInfo == null)
                 methodInfo = invocation.Method.GetBaseDefinition();
 
-            var proxies = this.proxyOnTypeInfo.ProxiesOnClass;
-            IEnumerable<IProxy> proxiesOnMethod = this.proxyOnTypeInfo.GetProxiesOnMethod(methodInfo);
+            var proxies = this.proxyInfo.ProxyOnClass;
+            IEnumerable<IProxy> proxiesOnMethod = this.proxyInfo
+                .GetProxiesOnMethod(methodInfo);
+
             proxies = proxies.Concat(proxiesOnMethod).ToList();
 
             ExecutingInfo executingInfo = new ExecutingInfo(invokingTarget, methodInfo, invocation.Arguments, invocation);

@@ -1,5 +1,4 @@
-﻿using Reface.AppStarter.Attributes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -17,43 +16,43 @@ namespace Reface.AppStarter.Proxy
 
 
         public Type Type { get; private set; }
-        public ICollection<IProxy> ProxiesOnClass { get; set; }
-        public IDictionary<string, ICollection<IProxy>> ProxiesOnMethod { get; set; }
+        public ICollection<Type> ProxyTypesOnClass { get; set; }
+        public IDictionary<string, ICollection<Type>> ProxyTypsOnMethodMap { get; set; }
 
         public IEnumerable<MethodInfo> AllMethods { get { return allMethods; } }
         private ProxyOnTypeInfo(Type type)
         {
             Type = type;
-            ProxiesOnClass = new List<IProxy>();
-            ProxiesOnMethod = new Dictionary<string, ICollection<IProxy>>();
+            ProxyTypesOnClass = new List<Type>();
+            ProxyTypsOnMethodMap = new Dictionary<string, ICollection<Type>>();
             this.allMethods = new List<MethodInfo>();
         }
 
-        public IEnumerable<IProxy> GetProxiesOnMethod(MethodInfo method)
+        public IEnumerable<Type> GetProxiesOnMethod(MethodInfo method)
         {
             string key = method.ToString();
-            ICollection<IProxy> result;
-            if (this.ProxiesOnMethod.TryGetValue(key, out result))
+            ICollection<Type> result;
+            if (this.ProxyTypsOnMethodMap.TryGetValue(key, out result))
                 return result;
 
-            return Enumerable.Empty<IProxy>();
+            return Enumerable.Empty<Type>();
         }
 
-        public void AddProxyOnClass(IProxy proxy)
+        public void AddProxyOnClass(Type proxyType)
         {
-            this.ProxiesOnClass.Add(proxy);
+            this.ProxyTypesOnClass.Add(proxyType);
         }
 
-        public void AddProxyOnMethod(IProxy proxy, MethodInfo methodInfo)
+        public void AddProxyOnMethod(Type proxyType, MethodInfo methodInfo)
         {
             string key = methodInfo.ToString();
-            ICollection<IProxy> proxies;
-            if (!this.ProxiesOnMethod.TryGetValue(key, out proxies))
+            ICollection<Type> proxies;
+            if (!this.ProxyTypsOnMethodMap.TryGetValue(key, out proxies))
             {
-                proxies = new List<IProxy>();
-                this.ProxiesOnMethod[key] = proxies;
+                proxies = new List<Type>();
+                this.ProxyTypsOnMethodMap[key] = proxies;
             }
-            proxies.Add(proxy);
+            proxies.Add(proxyType);
         }
 
 
@@ -65,7 +64,7 @@ namespace Reface.AppStarter.Proxy
         public static ProxyOnTypeInfo CreateByNormalType(Type type)
         {
             var result = new ProxyOnTypeInfo(type);
-            type.GetCustomAttributes<ProxyAttribute>().ForEach(proxy => result.AddProxyOnClass(proxy));
+            type.GetProxies().ForEach(proxy => result.AddProxyOnClass(proxy.GetType()));
             var proxiesOnMethod = new Dictionary<string, IEnumerable<IProxy>>();
             type.GetMethods()
                 .ForEach(method =>
@@ -73,7 +72,7 @@ namespace Reface.AppStarter.Proxy
                     result.allMethods.Add(method);
                     method.GetProxies().ForEach(proxy =>
                     {
-                        result.AddProxyOnMethod(proxy, method);
+                        result.AddProxyOnMethod(proxy.GetType(), method);
                     });
 
                 });
@@ -96,13 +95,13 @@ namespace Reface.AppStarter.Proxy
 
             allTypes.ForEach(type =>
             {
-                type.GetProxies().ForEach(proxy => result.AddProxyOnClass(proxy));
+                type.GetProxies().ForEach(proxy => result.AddProxyOnClass(proxy.GetType()));
                 type.GetMethods().ForEach(method =>
                 {
                     result.allMethods.Add(method);
                     method.GetProxies().ForEach(proxy => 
                     {
-                        result.AddProxyOnMethod(proxy, method);
+                        result.AddProxyOnMethod(proxy.GetType(), method);
                     });
                 });
             });

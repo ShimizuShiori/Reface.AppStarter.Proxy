@@ -1,4 +1,5 @@
 ﻿using Reface.AppStarter.Attributes;
+using Reface.AppStarter.ComponentLifetimeListeners;
 using Reface.AppStarter.Proxy.Tests.Events;
 using Reface.EventBus;
 using System;
@@ -6,13 +7,19 @@ using System;
 namespace Reface.AppStarter.Proxy.Tests.Modules.A.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public class AProxy : ProxyAttribute
+    [Component(RegistionMode.AsSelf)]
+    public class AProxy : ProxyAttribute, IOnCreated
     {
-        public IEventBus EventBus { get; set; }
+        private IEventBus eventBus;
+
+        public void OnCreated(CreateArguments arguments)
+        {
+            this.eventBus = arguments.ComponentManager.CreateComponent<IEventBus>();
+        }
 
         public override void OnExecuted(ExecutedInfo executedInfo)
         {
-            this.EventBus.Publish(new SendMessageEvent(this, "A2"));
+            this.eventBus.Publish(new SendMessageEvent(this, "A2"));
         }
 
         public override void OnExecuteError(ExecuteErrorInfo executeErrorInfo)
@@ -22,7 +29,7 @@ namespace Reface.AppStarter.Proxy.Tests.Modules.A.Attributes
 
         public override void OnExecuting(ExecutingInfo executingInfo)
         {
-            this.EventBus.Publish(new SendMessageEvent(this, "A1"));
+            this.eventBus.Publish(new SendMessageEvent(this, "A1"));
         }
     }
 }

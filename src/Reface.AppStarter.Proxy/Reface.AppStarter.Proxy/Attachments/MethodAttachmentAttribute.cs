@@ -54,9 +54,10 @@ namespace Reface.AppStarter.Proxy.Attachments
 
         public bool CanAttachOnMethod(MethodInfo method)
         {
-            var result = CheckName(method) && CheckReturnType(method) && CheckParameters(method) && CheckAttibutes(method);
-            Debug.WriteLine("{1}.{0} Need To Attach [{3}]: {2}", method.ToString(), method.DeclaringType.Name, result, this.GetType().Name);
-            return result;
+            return CheckName(method) && CheckReturnType(method) && CheckParameters(method) && CheckAttibutes(method);
+            //var result = CheckName(method) && CheckReturnType(method) && CheckParameters(method) && CheckAttibutes(method);
+            //Debug.WriteLine("{1}.{0} Need To Attach [{3}]: {2}", method.ToString(), method.DeclaringType.Name, result, this.GetType().Name);
+            //return result;
         }
     }
 }

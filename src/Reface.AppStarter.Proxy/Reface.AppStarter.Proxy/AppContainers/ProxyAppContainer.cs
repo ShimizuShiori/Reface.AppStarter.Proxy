@@ -16,7 +16,7 @@ namespace Reface.AppStarter.AppContainers
     /// </summary>
     public class ProxyAppContainer : IProxyAppContainer
     {
-        private readonly ConcurrentDictionary<Type, ProxyInfo> cacheForTypeHasProxy = new ConcurrentDictionary<Type, ProxyInfo>();
+        private readonly ConcurrentDictionary<Type, ProxyOnTypeInfo> cacheForProxyInfo = new ConcurrentDictionary<Type, ProxyOnTypeInfo>();
         private readonly ProxyGenerator proxyGenerator = new ProxyGenerator();
         private readonly IEnumerable<AttachedRuntimeInfo> attahcedProxyInfo;
         private readonly IEnumerable<AttachedMethodProxyRuntimeInfo> attachedMethodProxyInfo;
@@ -79,7 +79,6 @@ namespace Reface.AppStarter.AppContainers
 
         private void ComponentContainer_NoComponentRegisted(object sender, NoComponentRegistedEventArgs e)
         {
-            Debug.WriteLine("ComponentNotFound : {0}", e.ServiceType);
             if (!e.ServiceType.IsInterface) return;
             IEnumerable<AttachedRuntimeInfo> matchedInfos = this.attachedImplementorInfo
                 .Where(info => info.Attachment.CanAttach(e.ServiceType));
@@ -107,11 +106,37 @@ namespace Reface.AppStarter.AppContainers
             if (!e.RequiredType.IsInterface)
                 return;
 
+            var proxyOnTypeInfo = GetProxyInfo(e);
+
+            if (proxyOnTypeInfo.ProxyTypesOnClass.Count == 0 && proxyOnTypeInfo.ProxyTypsOnMethodMap.Count == 0)
+                return;
+
+            var proxyOnTypeRuntimeInfo = new ProxyOnTypeRuntimeInfo(e.ComponentManager, proxyOnTypeInfo);
+            ProxyAttributeExecuteInterceptor proxyAttributeExecuteInterceptor = new ProxyAttributeExecuteInterceptor(proxyOnTypeRuntimeInfo);
+            var newInstance = proxyGenerator.CreateInterfaceProxyWithTarget(
+                e.RequiredType,
+                e.CreatedObject,
+                proxyAttributeExecuteInterceptor
+            );
+            Debug.WriteLine("replace \n\t{0} \n\tto {1} \n\tas {2} ", e.CreatedObject.GetType(), newInstance, e.RequiredType);
+            e.Replace(newInstance);
+        }
+
+        private ProxyOnTypeInfo GetProxyInfo(ComponentCreatingEventArgs e)
+        {
             Type type = e.CreatedObject.GetType();
             bool isDynamicImplemented = e.CreatedObject.IsDynamicImplemented();
             if (isDynamicImplemented)
                 type = e.RequiredType;
 
+            Debug.WriteLine("GetProxyInfo({0})", type);
+            return cacheForProxyInfo.GetOrAdd(type, key => CreateProxyInfo(type, isDynamicImplemented));
+
+        }
+
+        private ProxyOnTypeInfo CreateProxyInfo(Type type, bool isDynamicImplemented)
+        {
+            Debug.WriteLine("CreateProxyInfo({0},{1})", type, isDynamicImplemented);
             // 对特征的属性进行注入
             ProxyOnTypeInfo proxyOnTypeInfo;
 
@@ -122,9 +147,8 @@ namespace Reface.AppStarter.AppContainers
 
             // 从所有的自定义代理中查找针对当前类型的代理
             this.attahcedProxyInfo.Where(x => x.Attachment.CanAttach(type))
-                .Select(x => e.ComponentManager.CreateComponent(x.AttachedType))
-                .OfType<IProxy>()
-                .ForEach(proxy => proxyOnTypeInfo.AddProxyOnClass(proxy));
+                .Select(x => x.AttachedType)
+                .ForEach(x => proxyOnTypeInfo.AddProxyOnClass(x));
 
             proxyOnTypeInfo.AllMethods
                 .ForEach(method =>
@@ -134,54 +158,16 @@ namespace Reface.AppStarter.AppContainers
                         if (!attachment.MethodAttachment.CanAttachOnMethod(method))
                             return;
 
-                        IProxy proxy = (IProxy)e.ComponentManager.CreateComponent(attachment.AttachedType);
-                        proxyOnTypeInfo.AddProxyOnMethod(proxy, method);
+                        proxyOnTypeInfo.AddProxyOnMethod(attachment.AttachedType, method);
                     });
                 });
 
-            Debug.WriteLine("all proxy found : {1}\n\ton class : {0}", proxyOnTypeInfo.ProxiesOnClass.Count, proxyOnTypeInfo.Type);
+            Debug.WriteLine("all proxy found : {1}\n\ton class : {0}", proxyOnTypeInfo.ProxyTypesOnClass.Count, proxyOnTypeInfo.Type);
             proxyOnTypeInfo.AllMethods.ForEach(method =>
             {
                 Debug.WriteLine("\ton [{1}] : {0}", proxyOnTypeInfo.GetProxiesOnMethod(method).Count(), method.ToString());
             });
-
-            if (proxyOnTypeInfo.ProxiesOnClass.Count == 0 && proxyOnTypeInfo.ProxiesOnMethod.Count == 0)
-                return;
-
-            foreach (var attr in proxyOnTypeInfo.ProxiesOnClass)
-                e.ComponentManager.InjectProperties(attr);
-            foreach (var attr in proxyOnTypeInfo.ProxiesOnMethod.SelectMany(x => x.Value))
-                e.ComponentManager.InjectProperties(attr);
-
-            ProxyAttributeExecuteInterceptor proxyAttributeExecuteInterceptor = new ProxyAttributeExecuteInterceptor(proxyOnTypeInfo);
-            var newInstance = proxyGenerator.CreateInterfaceProxyWithTarget(
-                e.RequiredType,
-                e.CreatedObject,
-                proxyAttributeExecuteInterceptor
-            );
-            Debug.WriteLine("replace \n\t{0} \n\tto {1} \n\tas {2} ", e.CreatedObject.GetType(), newInstance, e.RequiredType);
-            e.Replace(newInstance);
-        }
-
-        /// <summary>
-        /// 获取一个类型是否有切面特征
-        /// </summary>
-        /// <param name="e"></param>
-        /// <returns></returns>
-        private ProxyInfo GetProxyInfo(ComponentCreatingEventArgs e)
-        {
-            ProxyInfo info = cacheForTypeHasProxy.GetOrAdd(e.CreatedObject.GetType(), type =>
-            {
-                bool isDynamicImplemented = e.CreatedObject.IsDynamicImplemented();
-
-                if (isDynamicImplemented)
-                    type = e.RequiredType;
-
-                bool hasProxy = GetPredicateOfHasProxy(type).IsTrue();
-
-                return new ProxyInfo(type, hasProxy, isDynamicImplemented);
-            });
-            return info;
+            return proxyOnTypeInfo;
         }
 
         public void OnAppStarted(App app)

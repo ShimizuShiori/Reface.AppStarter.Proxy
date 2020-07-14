@@ -15,13 +15,11 @@ namespace Reface.AppStarter.Proxy.Tests.Services
     [Component]
     public class DefaultFileService : IFileService
     {
-        [SubThread]
         public string GetFileName(Guid fileId)
         {
             return string.Format("{0}.txt", fileId);
         }
 
-        [SubThread]
         public void Upload(string fileName)
         {
             Console.WriteLine("[{0}]\t{1}", Thread.CurrentThread.ManagedThreadId, "Upload " + fileName + " OK");
