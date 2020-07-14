@@ -7,7 +7,7 @@ using System;
 namespace Reface.AppStarter.Proxy.Tests.Modules.A.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
-    [Component(RegistionMode.AsSelf)]
+    [ExplicitProxy]
     public class AProxy : ProxyAttribute, IOnCreated
     {
         private IEventBus eventBus;

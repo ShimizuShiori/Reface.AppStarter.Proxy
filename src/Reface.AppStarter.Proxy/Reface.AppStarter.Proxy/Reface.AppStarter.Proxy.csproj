@@ -100,6 +100,7 @@
     <Compile Include="AppModules\ProxyScanAppModule.cs" />
     <Compile Include="AttachedMethodProxyRuntimeInfo.cs" />
     <Compile Include="Attachments\CanCastAsAttribute.cs" />
+    <Compile Include="Attachments\ExplicitProxyAttribute.cs" />
     <Compile Include="Attachments\GroupAttachmentAttribute.cs" />
     <Compile Include="Attachments\TypeHasAttributeAttribute.cs" />
     <Compile Include="Attachments\MethodAttachmentAttribute.cs" />

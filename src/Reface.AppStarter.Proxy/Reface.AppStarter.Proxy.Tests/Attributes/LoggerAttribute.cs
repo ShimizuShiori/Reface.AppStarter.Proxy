@@ -5,7 +5,7 @@ using System.Diagnostics;
 namespace Reface.AppStarter.Proxy.Tests.Attributes
 {
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class | AttributeTargets.Interface)]
-    [Component(RegistionMode.AsSelf)]
+    [ExplicitProxy]
     public class LoggerAttribute : ProxyAttribute
     {
         public override void OnExecuted(ExecutedInfo executedInfo)

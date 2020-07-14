@@ -6,7 +6,7 @@ using System.Diagnostics;
 namespace Reface.AppStarter.Proxy.Tests.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
-    [Component(RegistionMode.AsSelf)]
+    [ExplicitProxy]
     public class GenerateIdAttribute : ProxyAttribute
     {
         public override void OnExecuted(ExecutedInfo executedInfo)
