@@ -25,7 +25,6 @@ namespace Reface.AppStarter.Proxy.Tests
             ProxyGenerationOptions opt = new ProxyGenerationOptions();
             opt.AddMixinInstance(s);
             var s2 = (SomeTypeThatHasOnClassAttribute)pg.CreateClassProxy(s.GetType(), opt, new MyIInterceptor());
-            Debug.WriteLine(s2.GetType());
             s2.Do();
         }
     }
@@ -34,7 +33,6 @@ namespace Reface.AppStarter.Proxy.Tests
     {
         public void Intercept(IInvocation invocation)
         {
-            Debug.WriteLine("1");
             invocation.Proceed();
         }
     }

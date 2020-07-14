@@ -10,7 +10,6 @@ namespace Reface.AppStarter.Proxy.Tests.Attributes
     {
         public override void Intercept(InterfaceInvocationInfo info)
         {
-            Debug.WriteLine("AutoDaoAttribute.Intercept");
             if (info.Method.ReturnType == typeof(bool))
                 info.ReturnValue = true;
 

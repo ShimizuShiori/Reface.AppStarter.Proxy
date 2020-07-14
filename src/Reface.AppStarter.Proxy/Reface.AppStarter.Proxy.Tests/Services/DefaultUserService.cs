@@ -17,7 +17,6 @@ namespace Reface.AppStarter.Proxy.Tests.Services
         [Logger]
         public User Register(string name)
         {
-            Debug.WriteLine($"This.GetType() = {this.GetType().FullName}");
             User user = new User() { Name = name };
             this.Another();
             return user;

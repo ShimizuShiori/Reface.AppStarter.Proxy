@@ -11,19 +11,16 @@ namespace Reface.AppStarter.Proxy.Tests.Attributes
     {
         public override void OnExecuted(ExecutedInfo executedInfo)
         {
-            Debug.WriteLine("GenerateIdAttribute.OnExecuted");
             User user = (User)executedInfo.ReturnedValue;
             user.Id = Guid.NewGuid();
         }
 
         public override void OnExecuteError(ExecuteErrorInfo executeErrorInfo)
         {
-            Debug.WriteLine("GenerateIdAttribute.OnExecuteError");
         }
 
         public override void OnExecuting(ExecutingInfo executingInfo)
         {
-            Debug.WriteLine("GenerateIdAttribute.OnExecuting");
         }
     }
 }

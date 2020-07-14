@@ -118,7 +118,6 @@ namespace Reface.AppStarter.AppContainers
                 e.CreatedObject,
                 proxyAttributeExecuteInterceptor
             );
-            Debug.WriteLine("replace \n\t{0} \n\tto {1} \n\tas {2} ", e.CreatedObject.GetType(), newInstance, e.RequiredType);
             e.Replace(newInstance);
         }
 

@@ -19,7 +19,6 @@ namespace Reface.AppStarter.Proxy.Tests.Proxies
 
         public void OnExecuting(ExecutingInfo executingInfo)
         {
-            Debug.WriteLine(executingInfo.ToString());
         }
     }
 }

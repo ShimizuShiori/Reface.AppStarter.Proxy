@@ -14,7 +14,6 @@ namespace Reface.AppStarter.Proxy.Tests
         public void RegisterUserAndIdIsNotEmpty()
         {
             IUserService userService = this.ComponentContainer.CreateComponent<IUserService>();
-            Debug.WriteLine($"userService.GetType() = {userService.GetType()}");
             User user = userService.Register("Felix");
             Assert.AreEqual("Felix", user.Name);
         }
