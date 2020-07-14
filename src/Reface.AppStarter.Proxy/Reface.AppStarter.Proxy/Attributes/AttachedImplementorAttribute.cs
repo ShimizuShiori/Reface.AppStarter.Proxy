@@ -1,7 +1,7 @@
 ﻿using Reface.AppStarter.Attributes;
 using System;
 
-namespace Reface.AppStarter.Proxy.Attributes
+namespace Reface.AppStarter.Attributes
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class AttachedImplementorAttribute : ComponentAttribute

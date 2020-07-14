@@ -24,7 +24,9 @@ public class SomeService : ISomeService
 
 而是在创建代理时声明它应当以何种方式附加到类型上。
 
-### 最简单的例子
+---
+
+### 一个简单的例子
 
 对所有类型名称以 *Traceable* 开头的类型添加日志代理，用于记录这些类型每个方法每个参数的信息。
 
@@ -51,7 +53,7 @@ public class LoggerProxy : IProxy
 }
 ```
 
-代理类写好了，我们需要告诉 *Reface.AppStarter* 这是一个 **附加代理** 。
+代理类完成了，我们需要通知 *Reface.AppStarter* 这是一个 **附加代理** 。
 ```csharp
 [AttachedProxy]
 public class LoggerProxy : IProxy
@@ -61,7 +63,7 @@ public class LoggerProxy : IProxy
 
 一共有两种 **附加器** :
 * 类型附加器 ( *AttachmentAttribute* )，用于指定让代理附加到哪些类型上
-* 方法附加器 ( *MethodAttachmentAttribute* )，用于指定让代理附加到哪些方法上
+* [方法附加器 ( *MethodAttachmentAttribute* )，用于指定让代理附加到哪些方法上](./MethodAttachmentAttribute.md)
 
 在本示例中，我们需要将代理附加到 **名称以 Traceable 开头的类型上** ，所以我们使用 *AttachmentAttribute* .
 
@@ -95,6 +97,13 @@ public class DemoAppModule : AppModule
 
 }
 ```
+
+---
+
+## 内置的 *Attachment*
+* *CanCastAsAttribute* 当能够将类型转换为指定类型时的附加器
+* *TypeHasAttributeAttribute* 当类型包含指定的特征时的附加器
+* *GroupAttachmentAttribute* 继承该特征器，并用特征的方式定义多个附加器表示所有的附加器以 **且** 的形式进行判断，全部符合时则追加代理
 
 ---
 
