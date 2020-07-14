@@ -162,11 +162,13 @@ namespace Reface.AppStarter.AppContainers
                     });
                 });
 
+#if DEBUG
             Debug.WriteLine("all proxy found : {1}\n\ton class : {0}", proxyOnTypeInfo.ProxyTypesOnClass.Count, proxyOnTypeInfo.Type);
             proxyOnTypeInfo.AllMethods.ForEach(method =>
             {
                 Debug.WriteLine("\ton [{1}] : {0}", proxyOnTypeInfo.GetProxiesOnMethod(method).Count(), method.ToString());
             });
+#endif
             return proxyOnTypeInfo;
         }
 

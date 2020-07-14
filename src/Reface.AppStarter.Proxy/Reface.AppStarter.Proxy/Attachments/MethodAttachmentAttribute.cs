@@ -1,18 +1,37 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Reflection;
 
 namespace Reface.AppStarter.Proxy.Attachments
 {
     /// <summary>
-    /// 当一个类型中具体某个方法时，添加一个代理类。
+    /// 向某个符合条件的方法添加代理类。<br />
+    /// 未指定条件则表示不对此属性判断，多个条件之间为且关系。<br />
+    /// 你可以向你的代理类添加多个 <see cref="MethodAttachmentAttribute"/> 表示或的关系。
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class MethodAttachmentAttribute : Attribute, IMethodAttachment
     {
+        /// <summary>
+        /// 对方法名称的附加条件
+        /// </summary>
         public string MethodName { get; set; } = "";
+
+        /// <summary>
+        /// 对返回类型的附加条件。<br />
+        /// 某个方法的返回值与该属性相同，或可以换转至该属性的值，就会附加代理。
+        /// </summary>
         public Type ReturnType { get; set; } = null;
+
+        /// <summary>
+        /// 对参数列表的附加条件。
+        /// 某个方法中的所有参数都与该属性指定的参数一一对应，换均可以转换至该属性要求的类型，就可以附加代理。
+        /// </summary>
         public Type[] ParameterTypes { get; set; } = null;
+
+        /// <summary>
+        /// 对标记在方法上的 <see cref="Attribute"/> 附加的条件。
+        /// 该参数指定的 <see cref="Attribute"/> 必须全部出现在方法上才会附加该代理。
+        /// </summary>
         public Type[] AttributeTypes { get; set; } = null;
 
         private bool CheckName(MethodInfo method)
