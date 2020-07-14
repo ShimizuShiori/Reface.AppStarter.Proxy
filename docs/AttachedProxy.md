@@ -1,6 +1,6 @@
 # 附加的代理
 
-[显式声明代理](./ProxyAttibute.md) 是一种对目标类型有侵入性的代理声明方式。
+形如下面的 [显式声明代理](./ProxyAttibute.md) 是一种对目标类型有侵入性的代理声明方式。
 
 ```csharp
 [Component]
