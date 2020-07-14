@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Reface.AppStarter.Proxy;
+using System;
 using System.Reflection;
 
-namespace Reface.AppStarter.Proxy.Attachments
+namespace Reface.AppStarter.Attributes
 {
     /// <summary>
     /// 向某个符合条件的方法添加代理类。<br />

@@ -103,7 +103,7 @@
     <Compile Include="Attachments\ExplicitProxyAttribute.cs" />
     <Compile Include="Attachments\GroupAttachmentAttribute.cs" />
     <Compile Include="Attachments\TypeHasAttributeAttribute.cs" />
-    <Compile Include="Attachments\MethodAttachmentAttribute.cs" />
+    <Compile Include="Attributes\MethodAttachmentAttribute.cs" />
     <Compile Include="Attributes\AttachedImplementorAttribute.cs" />
     <Compile Include="Attributes\AttachmentAttribute.cs" />
     <Compile Include="Attributes\AttachedProxyAttribute.cs" />

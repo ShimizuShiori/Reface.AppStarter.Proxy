@@ -18,6 +18,7 @@ namespace Reface.AppStarter.Proxy.Attachments
 
         public override bool CanAttach(Type type)
         {
+
             return this.tagetType.IsAssignableFrom(type);
         }
     }
