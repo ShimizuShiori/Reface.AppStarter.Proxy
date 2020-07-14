@@ -1,45 +1,84 @@
-# 向 *class* 添加 **AOP**
+# 通过 *Attribute* 创建 **AOP** 切面
 
-向类型添加 AOP 有两种方式
-* 通过 Attribute 添加到类型或者方法上
-* 通过非侵入式添加 ( Reface.AppStarter.Proxy >= 1.5.0 )
-
-## 1 注意事项
+### 注意事项
 
 无论通过哪种方式添加的 **AOP**，该实例都必须是通过 *Reface.AppStarter* 的 **IOC/DI** 容器创建出来的，
 直接通过 *new* 得到的实例，是无法通过此功能创建 **AOP** 的。
 
-## 2 通过 Attribute 添加 AOP
+---
 
-### 2.1 创建切面类
+*Reface.AppStarter.Proxy* 提供两种切面的创建方法。
 
-开发者需要根据自己的需求创建切面类
+* **通过 ProxyAttribute 显式得将切面标记到类型或者方法上** 
+* [通过非侵入式添加 ( Reface.AppStarter.Proxy >= 1.5.0 )](./AttachedProxy.md)
+
+本篇将介绍如何使用 *ProxyAttribute* 创建一个 **显式代理**
+
+**首先**，
+我们创建一个切面类型用于编写切面的功能代码。
+
+开发 **显式代理** 有三项要求：
+* 继承于 *ProxyAttribute* 
+* 添加 *ExplicitProxy* 特征
+* 对该代理所在的模块添加对 *ComponentScanAppModule* 的依赖
+
+假设我们开发一个用于打印每个方法执行进入、返回以及异常时的代理类。
+
+首先，创建名为 *LoggerAttribute* 的类型，继承于 *ProxyAttribute*，除了添加 *AttributeUsage* 外，
+还需要添加 *ExplicitProxy*
 
 ```csharp
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class | AttributeTargets.Interface)]
+[ExplicitProxy]
 public class LoggerAttribute : ProxyAttribute
 {
     public override void OnExecuted(ExecutedInfo executedInfo)
     {
+        // output log with result
     }
 
     public override void OnExecuteError(ExecuteErrorInfo executeErrorInfo)
     {
+        // output log with error
     }
 
     public override void OnExecuting(ExecutingInfo executingInfo)
     {
+        // output log with parameters
     }
 }
 ```
-### 注意事项
 
-1. 这个类是一个 *Attribute* , 因此类名请使用 *Attribute* 结尾
-2. 继承 *ProxyAttribute*
-3. 建议将 *AttributeTargets* 设置为 *Method | Class | Interface*
+现在，你需要为 *LoggerAttribute* 所在的 *AppModule* 添加以下依赖：
+* *ComponentScanAppModule*
+* *ProxyAppModule*
+
+```csharp
+[ComponentScanAppModule]
+[ProxyScanAppModule]
+public class TestAppModule : AppModule
+{
+}
+}
+```
+
+将该切面加在其它类型的类型签名上，或者方法签名上即可生效。
+
+---
+
+**一些细节**
+
+* 这个类是一个 *Attribute* , 因此类名请使用 *Attribute* 结尾
+* 建议将 *AttributeTargets* 设置为 *Method | Class | Interface*
     * 将切面定义在 *Method* 上时，表示当执行这个 *Method* 时触发 **AOP**
     * 将切面定义在 *Class* 上时，表示当执行这个 *class* 中所有 *Method* 时都触发 **AOP**
     * 将切面定义在 *Interface* 上时，表示当执行由这个 *interface* 产生的动态实现时，每个 *Method* 都触发 **AOP**
+    * 执行时，类型上的代理会先于方法上的代理执行
+* *ProxyAppModule* 仅仅是开启了 *ProxyAppContainer*，没有其它功能
+* *ProxyAttribute* 在执行时不是通过反射得到的实例，而是通过 **IOC** 容器创建的，所以你的 *ProxyAttribute* 最好是无参数构造的，如果必须要用有构造函数的切面请参考[《附加的代理》](./AttachedProxy.md)
+* 因为 *ProxyAttribute* 是由 **IOC** 容器创建的，因此你可以为其标记 **生命周期接口** 
+
+---
 
 #### 三个切点
 
@@ -117,7 +156,7 @@ public class DefaultService : IService
 
 ```
 
-因为切面是在通过 *Autofac* 容器时产生的，
+因为切面是在通过 **IOC** 容器时产生的，
 因此我们需要为 *DefaultService* 加上 *ComponentAttribute*
 
 ```csharp
