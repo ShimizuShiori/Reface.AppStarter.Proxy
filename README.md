@@ -16,7 +16,7 @@ https://www.nuget.org/packages/Reface.AppStarter.Proxy
 ## 1.3 提供的功能
 
 * 作为 *Reface.AppStarter* 的一个子模块
-* [通过 *Attribute* 创建 **AOP** 切面]((docs/ProxyAttribute.md))
+* [通过 *Attribute* 创建 **AOP** 切面](docs/ProxyAttribute.md)
 * [通过 *Attribute* 创建接口的动态实现](docs/ImplementorAttribute.md)
 * 以非侵入式的代码向已有的类型附加代理
 * 以非侵入式的代码向已有的接口添加动态实现
