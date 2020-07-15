@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Reface.AppStarter.Proxy</id>
-    <version>2.1.0.1</version>
+    <version>2.1.1.1</version>
     <title>Reface.AppStarter.Proxy</title>
     <authors>Felix</authors>
     <owners>Felix</owners>

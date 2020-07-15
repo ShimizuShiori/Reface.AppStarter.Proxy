@@ -1,5 +1,6 @@
 ﻿using Reface.AppStarter.Proxy;
 using System;
+using System.Linq;
 using System.Reflection;
 
 namespace Reface.AppStarter.Attributes
@@ -66,7 +67,7 @@ namespace Reface.AppStarter.Attributes
             if (this.AttributeTypes == null) return true;
             foreach (var type in this.AttributeTypes)
             {
-                if (method.GetCustomAttribute(type) == null)
+                if (!method.GetCustomAttributes(type).Any())
                     return false;
             }
             return true;

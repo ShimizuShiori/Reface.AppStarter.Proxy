@@ -13,5 +13,13 @@ namespace Reface.AppStarter.Proxy.Tests
             IFileService service = app.CreateComponent<IFileService>();
             Assert.IsNotInstanceOfType(service, typeof(DefaultFileService));
         }
+
+        [TestMethod]
+        public void CacheServiceHasProxy()
+        {
+            var app = AppSetup.Start<CustomProxyAppModule>();
+            var service = app.CreateComponent<ICachableService>();
+            Assert.IsNotInstanceOfType(service, typeof(CachableService));
+        }
     }
 }

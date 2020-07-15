@@ -107,6 +107,7 @@
     <Compile Include="Attachments\IsRepo.cs" />
     <Compile Include="AttachProxyOnGenercClassTests.cs" />
     <Compile Include="Attributes\AutoDaoAttribute.cs" />
+    <Compile Include="Attributes\CleanCache.cs" />
     <Compile Include="Attributes\GenerateIdAttribute.cs" />
     <Compile Include="Attributes\LoggerAttribute.cs" />
     <Compile Include="Attributes\OnClass.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="OrderTests.cs" />
     <Compile Include="OthersTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proxies\CacheProxy.cs" />
     <Compile Include="Proxies\ProxyForOnClass.cs" />
     <Compile Include="Proxies\ProxyForOnMethod.cs" />
     <Compile Include="Proxies\ProxyIfHasServiceAttribute.cs" />
@@ -149,6 +151,7 @@
     <Compile Include="Proxies\ShowRepoInfo.cs" />
     <Compile Include="Repos\IRepo.cs" />
     <Compile Include="Repos\Repo.cs" />
+    <Compile Include="Services\CachableService.cs" />
     <Compile Include="Services\DefaultOrderService.cs" />
     <Compile Include="Services\DefaultUserService.cs" />
     <Compile Include="Services\IFileService.cs" />

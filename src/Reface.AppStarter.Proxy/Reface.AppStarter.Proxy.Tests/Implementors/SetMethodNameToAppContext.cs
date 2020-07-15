@@ -1,9 +1,10 @@
-﻿using Reface.AppStarter.Proxy.Attachments;
-using Reface.AppStarter.Proxy.Attributes;
+﻿using Reface.AppStarter.Attributes;
+using Reface.AppStarter.Proxy.Attachments;
 using Reface.AppStarter.Proxy.Tests.Attributes;
 
 namespace Reface.AppStarter.Proxy.Tests.Implementors
 {
+
     [AttachedImplementor]
     [TypeHasAttribute(typeof(ShowMethodName))]
     public class SetMethodNameToAppContext : IImplementor
