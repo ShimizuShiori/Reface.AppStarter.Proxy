@@ -111,7 +111,7 @@ public class I18nImplementor : IImplementor
 ```csharp
 [ComponentScanAppModule]
 [ImplementorScanAppModule]
-public class MyAppModule : AppModule
+public class RoleAppModule  : AppModule
 {
 
 }
