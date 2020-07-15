@@ -1,7 +1,6 @@
 ﻿using Reface.AppStarter.AppContainerBuilders;
 using Reface.AppStarter.Attributes;
 using Reface.AppStarter.Proxy;
-using Reface.AppStarter.Proxy.Attributes;
 using System.Linq;
 using System.Reflection;
 

@@ -19,4 +19,4 @@ https://www.nuget.org/packages/Reface.AppStarter.Proxy
 * [通过 *Attribute* 创建 **AOP** 切面](docs/ProxyAttribute.md)
 * [通过 *Attribute* 创建接口的动态实现](docs/ImplementorAttribute.md)
 * [以非侵入式的代码向已有的类型附加代理](docs/AttachedProxy.md)
-* 以非侵入式的代码向已有的接口添加动态实现
+* [以非侵入式的代码向已有的接口添加动态实现](docs/AttachedImplementor.md)
