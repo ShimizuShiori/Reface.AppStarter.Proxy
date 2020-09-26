@@ -4,7 +4,9 @@ using Reface.AppStarter.Proxy.Tests.AppModules;
 using Reface.AppStarter.Proxy.Tests.Modules.A.Services;
 using Reface.AppStarter.Proxy.Tests.Modules.B.Services;
 using Reface.AppStarter.UnitTests;
+using System;
 using System.Text;
+using System.Threading;
 
 namespace Reface.AppStarter.Proxy.Tests
 {
@@ -19,7 +21,7 @@ namespace Reface.AppStarter.Proxy.Tests
 
         [TestMethod]
         public void DoAAndBAndCheckMessage()
-        {
+        {            
             this.AService.DoA();
             this.BService.DoB();
             StringBuilder sb = this.App.Context["MB"] as StringBuilder;
